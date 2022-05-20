@@ -1,4 +1,4 @@
-html {
+/*html {
   font-size: 14px;
 }
 
@@ -15,4 +15,9 @@ html {
 
 body {
   margin-bottom: 60px;
+}*/
+.product-info img {
+    margin: 3px;
+    border: 1px solid gray;
+    max-width: 100px;
 }
