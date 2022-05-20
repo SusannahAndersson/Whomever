@@ -1,8 +1,44 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
+﻿@*@*//pass data from the controller to view the next request*@
+@*<div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>*@
+@{
+    ViewData["Title"] = "";
+}
+<div class="row">
+    <div class="col-md-9">
+        <div class="product-info">
+            <img src="~/img/wh-1.jpg" />
+            <h3>Vase</h3>
+            <ul class="products-prop">
+                <li>Category: Vase</li>
+                <li>Price: 399</li>
+                <li>Description: This is a vase</li>
+                <li>Brand: A-vase-ing</li>
+            </ul>
+            <button id="addtocartButton" class="btn btn-success">Add to cart</button>
+        </div>
+        <div id="loginToggle">Login</div>
+        <form class="popup-form">
+            <div>
+                <label>Username</label>
+                <input />
+            </div>
+            <div>
+                <label>Password</label>
+                <input type="password" />
+            </div>
+            <div>
+                <input type="checkbox" />
+                <label>Remember me</label>
+            </div>
+            <div>
+                <input type="submit" value="Login" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3">
+        <p>Cart items</p>
+    </div>
 </div>
