@@ -1,59 +1,38 @@
-using Microsoft.EntityFrameworkCore;
-using Whomever.Areas.ContactUsService;
 using Whomever.Data;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
-//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
-//builder.Services.AddControllersWithViews();
-
-//database
-//builder.Services.AddDbContext<ApplicationDbContext>(cfg =>
-//{
-//    cfg.UseSqlServer();
-//}
-//);
-
-builder.Services.AddTransient<IContactUsService, NullContactUsService>();
-
-builder.Services.AddControllersWithViews()
-  .AddRazorRuntimeCompilation();
-
-builder.Services.AddRazorPages();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-
-if (app.Environment.IsDevelopment())
+namespace Whomever
 {
-    app.UseMigrationsEndPoint();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var host = CreateHostBuilder(args).Build();
+
+            if (args.Length > 0 && args[0].ToLower() == "/seed")
+            {
+                SeedDatabase(host);
+            }
+            else
+            {
+                host.Run();
+            }
+        }
+
+        private static void SeedDatabase(IHost host)
+        {
+            var scopeFactory = host.Services.GetService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var appSeeder = scope.ServiceProvider.GetService<ApplicationSeeder>();
+                appSeeder.Seed();
+            }
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-else
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-//app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-//app.UseAuthentication();
-//app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
-
-app.Run();
