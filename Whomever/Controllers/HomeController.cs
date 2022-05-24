@@ -7,17 +7,18 @@ namespace Whomever.Controllers
     public class HomeController : Controller
     {
         private readonly Areas.ContactUsService.IContactUsService _contactUsService;
-        private readonly ApplicationDbContext applicationDbContext;
+        private readonly IApplicationRepository _applicationRepository;
 
-        public HomeController(Areas.ContactUsService.IContactUsService contactUsService, ApplicationDbContext applicationDbContext)
+        public HomeController(Areas.ContactUsService.IContactUsService contactUsService, IApplicationRepository applicationRepository)
         {
             _contactUsService = contactUsService;
-            this.applicationDbContext = applicationDbContext;
+            _applicationRepository = applicationRepository;
         }
 
         //IActionResult to map logic to view
         public IActionResult Index()
         {
+            //var showProducts = _applicationDbContext.Products.ToList();
             return View();
         }
 
@@ -49,10 +50,8 @@ namespace Whomever.Controllers
         public IActionResult WebShop()
         {
             //passing data from db to view
-            var results = applicationDbContext.Products
-                .OrderBy(p => p.Category)
-                .ToList();
-            return View(results.ToList());
+            var productResults = _applicationRepository.GetAllProducts();
+            return View(productResults);
         }
 
         //    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
