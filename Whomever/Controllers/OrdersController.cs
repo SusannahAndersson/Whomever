@@ -16,36 +16,38 @@ namespace Whomever.Controllers
             _logger = logger;
         }
 
+        //return getallorders collection
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public IActionResult Get()
-        //public actionResult<IEnumerable<Product>>
         {
             try
-            {//200
+            {
                 return Ok(_applicationRepository.GetAllOrders());
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to get orders: {ex}");
-                //400
                 //return BadRequest(ex.Message);
                 return BadRequest("Failed to get orders");
+            }
+        }
 
-                //public IEnumerable<Orders> Get()
-                //{
-                //    try
-                //    //{
-                //    //    return ok(_applicationRepository.GetAllOrders());
-                //        return ok(_applicationRepository.GetAllOrders());
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        _logger.LogError($"Failed to get orders: {ex}");
-                //        return BadRequest("Failed to get orders");
-                //    }
-                //}
+        [HttpGet("{id:int}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                var orderById = _applicationRepository.GetOrderById(id);
+                if (orderById != null) return Ok(orderById);
+                else return NotFound();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get orders: {ex}");
+                //return BadRequest(ex.Message);
+                return BadRequest("Failed to get orders");
             }
         }
     }

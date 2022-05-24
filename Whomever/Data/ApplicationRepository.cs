@@ -1,4 +1,5 @@
-﻿using Whomever.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Whomever.Data.Entities;
 
 namespace Whomever.Data
 {
@@ -19,7 +20,9 @@ namespace Whomever.Data
             {
                 _logger.LogInformation("GetAllOrders was called");
                 return _applicationDbContext.Orders
-                    .OrderBy(p => p.OrderDate)
+                    .Include(o => o.Items)
+                    .ThenInclude(p => p.Product)
+                    .OrderBy(o => o.OrderDate)
                     .ToList();
             }
             catch (Exception ex)
@@ -43,6 +46,25 @@ namespace Whomever.Data
             {
                 _logger.LogError($"Failed to call GetAllProducts: {ex}");
                 return Enumerable.Empty<Product>();
+            }
+        }
+
+        public Order GetOrderById(int id)
+        {
+            try
+            {
+                _logger.LogInformation("GetOrderById was called");
+                return _applicationDbContext.Orders
+                    .Include(o => o.Items)
+                    .ThenInclude(p => p.Product)
+                    .Where(i => i.Id == id)
+                    .OrderBy(o => o.OrderDate)
+                    .FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to call GetOrderById: {ex}");
+                return null;
             }
         }
 
