@@ -1,4 +1,5 @@
 ﻿using Whomever.Data.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Whomever.Data
 {
@@ -10,5 +11,7 @@ namespace Whomever.Data
         IEnumerable<Product> GetProductsByCategory(string Category);
 
         bool SaveAll();
+
+        IEnumerable<Order> GetAllOrders();
     }
 }

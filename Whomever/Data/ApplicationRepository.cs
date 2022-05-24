@@ -13,6 +13,22 @@ namespace Whomever.Data
             _logger = logger;
         }
 
+        public IEnumerable<Order> GetAllOrders()
+        {
+            try
+            {
+                _logger.LogInformation("GetAllOrders was called");
+                return _applicationDbContext.Orders
+                    .OrderBy(p => p.OrderDate)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to call GetAllOrders: {ex}");
+                return Enumerable.Empty<Order>();
+            }
+        }
+
         //default
         public IEnumerable<Product> GetAllProducts()
         {

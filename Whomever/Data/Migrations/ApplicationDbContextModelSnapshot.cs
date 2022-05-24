@@ -39,7 +39,7 @@ namespace Whomever.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Whomever.Data.Entities.OrderItem", b =>
@@ -68,7 +68,7 @@ namespace Whomever.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItem", (string)null);
                 });
 
             modelBuilder.Entity("Whomever.Data.Entities.Product", b =>
@@ -108,7 +108,7 @@ namespace Whomever.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Whomever.Data.Entities.OrderItem", b =>
