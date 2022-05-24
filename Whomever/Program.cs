@@ -21,11 +21,9 @@ namespace Whomever
         private static void SeedDatabase(IHost host)
         {
             var scopeFactory = host.Services.GetService<IServiceScopeFactory>();
-            using (var scope = scopeFactory.CreateScope())
-            {
-                var appSeeder = scope.ServiceProvider.GetService<ApplicationSeeder>();
-                appSeeder.Seed();
-            }
+            using var scope = scopeFactory.CreateScope();
+            var appSeeder = scope.ServiceProvider.GetService<ApplicationSeeder>();
+            appSeeder.Seed();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

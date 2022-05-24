@@ -20,7 +20,7 @@ namespace Whomever.Data
 
             if (!_applicationDbContext.Products.Any())
             {
-                // Need to create the Sample Data
+                //create sample data from whproduct.json
                 var file = Path.Combine(_webHostEnvironment.ContentRootPath, "Data/whproduct.json");
                 var json = File.ReadAllText(file);
                 var products = JsonSerializer.Deserialize<IEnumerable<Product>>(json);
