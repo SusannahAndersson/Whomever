@@ -11,5 +11,8 @@ namespace Whomever.Models
         [Required]
         [MinLength(1)]
         public string OrderNumber { get; set; }
+
+        //view items dep orderid (api url)
+        public ICollection<OrderItemViewModel> Items { get; set; }
     }
 }

@@ -9,7 +9,8 @@ namespace Whomever.Data
 
         IEnumerable<Product> GetProductsByCategory(string Category);
 
-        IEnumerable<Order> GetAllOrders(bool includeOrders);
+        //bool includeitems = enable to return api uri w/wo itemsarray
+        IEnumerable<Order> GetAllOrders(bool includeItems);
 
         Order GetOrderById(int id);
 

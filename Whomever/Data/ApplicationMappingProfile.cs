@@ -13,6 +13,9 @@ namespace Whomever.Controllers
             CreateMap<Order, OrderViewModel>()
                 .ForMember(o => o.OrderId, opt => opt.MapFrom(o => o.Id))
                 .ReverseMap();
+
+            CreateMap<OrderItem, OrderItemViewModel>()
+                .ReverseMap();
         }
     }
 }

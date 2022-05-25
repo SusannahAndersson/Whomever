@@ -21,25 +21,63 @@ namespace Whomever.Controllers
             _mapper = mapper;
         }
 
+        //bool includeitems = optional parameter
         //return getallorders collection
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult Get(bool includeOrders = true)
+        public IActionResult Get(bool includeItems = true)
         {
             try
             {
-                //mapping
-                var mapperGetAllOrders = _applicationRepository.GetAllOrders(includeOrders);
-                return Ok(_mapper.Map<IEnumerable<OrderViewModel>>(mapperGetAllOrders));
+                var includeItemsResults = _applicationRepository.GetAllOrders(includeItems);
+
+                return Ok(_mapper.Map<IEnumerable<OrderViewModel>>(includeItemsResults));
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to get orders: {ex}");
-                //return BadRequest(ex.Message);
-                return BadRequest("Failed to get orders");
+                return BadRequest($"Failed to get orders");
             }
         }
+
+        //[HttpGet]
+        //[ProducesResponseType(200)]
+        //[ProducesResponseType(400)]
+        //public IActionResult Get(bool includeItems = true)
+        //{
+        //    try
+        //    {
+        //        //mapping
+        //        var includeItemsResult = _applicationRepository.GetAllOrders(includeItems);
+        //        return Ok(_mapper.Map<IEnumerable<OrderViewModel>>(includeItemsResult));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError($"Failed to get orders: {ex}");
+        //        //return BadRequest(ex.Message);
+        //        return BadRequest("Failed to get orders");
+        //    }
+        //}
+
+        //[HttpGet]
+        //[ProducesResponseType(200)]
+        //[ProducesResponseType(400)]
+        //public IActionResult Get(bool includeItems = true)
+        //{
+        //    try
+        //    {
+        //        //mapping
+        //        var mapperGetAllOrders = _applicationRepository.GetAllOrders(includeItems);
+        //        return Ok(_mapper.Map<IEnumerable<OrderViewModel>>(mapperGetAllOrders));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError($"Failed to get orders: {ex}");
+        //        //return BadRequest(ex.Message);
+        //        return BadRequest("Failed to get orders");
+        //    }
+        //}
 
         [HttpGet("{id:int}")]
         [ProducesResponseType(200)]
