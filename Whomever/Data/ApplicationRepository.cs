@@ -14,6 +14,11 @@ namespace Whomever.Data
             _logger = logger;
         }
 
+        public void AddEntity(object model)
+        {
+            _applicationDbContext.Add(model);
+        }
+
         public IEnumerable<Order> GetAllOrders()
         {
             try
