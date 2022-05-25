@@ -19,7 +19,7 @@ namespace Whomever.Data
             _applicationDbContext.Add(model);
         }
 
-        public IEnumerable<Order> GetAllOrders()
+        public IEnumerable<Order> GetAllOrders(bool includeOrders)
         {
             try
             {

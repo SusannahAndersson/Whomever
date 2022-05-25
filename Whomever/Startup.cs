@@ -2,6 +2,7 @@
 using Whomever.Areas.ContactUsService;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Reflection;
 
 //using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 
@@ -26,6 +27,8 @@ namespace Whomever
        options.UseSqlServer(
            Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<ApplicationSeeder>();
+            //inject automapper to controllers
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<IContactUsService, NullContactUsService>();
             //reused thru scope
             services.AddScoped<IApplicationRepository, ApplicationRepository>();

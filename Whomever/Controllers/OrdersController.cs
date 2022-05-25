@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Whomever.Data;
 using Whomever.Data.Entities;
 using Whomever.Models;
@@ -11,22 +12,26 @@ namespace Whomever.Controllers
     {
         private readonly IApplicationRepository _applicationRepository;
         private readonly ILogger<OrdersController> _logger;
+        private readonly IMapper _mapper;
 
-        public OrdersController(IApplicationRepository applicationRepository, ILogger<OrdersController> logger)
+        public OrdersController(IApplicationRepository applicationRepository, ILogger<OrdersController> logger, IMapper mapper)
         {
             _applicationRepository = applicationRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         //return getallorders collection
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult Get()
+        public IActionResult Get(bool includeOrders = true)
         {
             try
             {
-                return Ok(_applicationRepository.GetAllOrders());
+                //mapping
+                var mapperGetAllOrders = _applicationRepository.GetAllOrders(includeOrders);
+                return Ok(_mapper.Map<IEnumerable<OrderViewModel>>(mapperGetAllOrders));
             }
             catch (Exception ex)
             {
@@ -44,7 +49,8 @@ namespace Whomever.Controllers
             try
             {
                 var orderById = _applicationRepository.GetOrderById(id);
-                if (orderById != null) return Ok(orderById);
+                //take passed in order and return mapped version of orderviewmodel (map from order to orderviewmodel)
+                if (orderById != null) return Ok(_mapper.Map<Order, OrderViewModel>(orderById));
                 else return NotFound();
             }
             catch (Exception ex)
@@ -66,13 +72,10 @@ namespace Whomever.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //convert model to order
-                    var newOrder = new Order()
-                    {
-                        OrderDate = model.OrderDate,
-                        OrderNumber = model.OrderNumber,
-                        Id = model.OrderId
-                    };
+                    //reverse map neworder
+                    ////convert model to order
+                    var newOrder = _mapper.Map<OrderViewModel, Order>(model);
+
                     //spec orderdate to now bc not required
                     if (newOrder.OrderDate == DateTime.MinValue)
                     {
@@ -82,15 +85,7 @@ namespace Whomever.Controllers
                     _applicationRepository.AddEntity(newOrder);
                     if (_applicationRepository.SaveAll())
                     {
-                        //then convert back to orderviewmodel to work with
-                        var orderViewModel = new OrderViewModel
-                        {
-                            OrderId = newOrder.Id,
-                            OrderDate = newOrder.OrderDate,
-                            OrderNumber = newOrder.OrderNumber
-                        };
-
-                        return Created($"/api/orders/{orderViewModel.OrderId}", orderViewModel);
+                        return Created($"/api/orders/{newOrder.Id}", _mapper.Map<Order, OrderViewModel>(newOrder));
                     }
                 }
                 else

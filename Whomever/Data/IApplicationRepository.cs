@@ -9,7 +9,7 @@ namespace Whomever.Data
 
         IEnumerable<Product> GetProductsByCategory(string Category);
 
-        IEnumerable<Order> GetAllOrders();
+        IEnumerable<Order> GetAllOrders(bool includeOrders);
 
         Order GetOrderById(int id);
 
