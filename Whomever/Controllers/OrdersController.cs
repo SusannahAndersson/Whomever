@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Whomever.Data;
+using Whomever.Data.Entities;
 
 namespace Whomever.Controllers
 {
@@ -49,6 +50,26 @@ namespace Whomever.Controllers
                 //return BadRequest(ex.Message);
                 return BadRequest("Failed to get orders");
             }
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] Order model)
+        {
+            //add to db
+            try
+            {
+                _applicationRepository.AddEntity(model);
+                if (_applicationRepository.SaveAll())
+                {
+                    return Created($"/api/orders/{model.Id}", model);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to save new orders: {ex}");
+                //return BadRequest(ex.Message);
+            }
+            return BadRequest("Failed to save new order");
         }
     }
 }
