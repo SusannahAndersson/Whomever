@@ -10,7 +10,6 @@
   "profiles": {
     "Whomever": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "http://localhost:4400",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
