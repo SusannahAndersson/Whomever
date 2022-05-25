@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Whomever.Data;
 using Whomever.Data.Entities;
+using Whomever.Models;
 
 namespace Whomever.Controllers
 {
@@ -36,6 +37,8 @@ namespace Whomever.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public IActionResult Get(int id)
         {
             try
@@ -52,21 +55,52 @@ namespace Whomever.Controllers
             }
         }
 
+        //mapping orderviewmodel
         [HttpPost]
-        public IActionResult Post([FromBody] Order model)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult Post([FromBody] OrderViewModel model)
         {
             //add to db
             try
             {
-                _applicationRepository.AddEntity(model);
-                if (_applicationRepository.SaveAll())
+                if (ModelState.IsValid)
                 {
-                    return Created($"/api/orders/{model.Id}", model);
+                    //convert model to order
+                    var newOrder = new Order()
+                    {
+                        OrderDate = model.OrderDate,
+                        OrderNumber = model.OrderNumber,
+                        Id = model.OrderId
+                    };
+                    //spec orderdate to now bc not required
+                    if (newOrder.OrderDate == DateTime.MinValue)
+                    {
+                        newOrder.OrderDate = DateTime.Now;
+                    }
+                    //add to entity neworder
+                    _applicationRepository.AddEntity(newOrder);
+                    if (_applicationRepository.SaveAll())
+                    {
+                        //then convert back to orderviewmodel to work with
+                        var orderViewModel = new OrderViewModel
+                        {
+                            OrderId = newOrder.Id,
+                            OrderDate = newOrder.OrderDate,
+                            OrderNumber = newOrder.OrderNumber
+                        };
+
+                        return Created($"/api/orders/{orderViewModel.OrderId}", orderViewModel);
+                    }
+                }
+                else
+                {
+                    return BadRequest(ModelState);
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to save new orders: {ex}");
+                _logger.LogError($"Failed to save new order: {ex}");
                 //return BadRequest(ex.Message);
             }
             return BadRequest("Failed to save new order");

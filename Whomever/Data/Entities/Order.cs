@@ -7,7 +7,6 @@
         public string? OrderNumber { get; set; }
 
         //relate order entity to orderitem entity w one-to-many relationship
-
         public ICollection<OrderItem>? Items { get; set; }
     }
 }
