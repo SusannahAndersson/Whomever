@@ -41,44 +41,6 @@ namespace Whomever.Controllers
             }
         }
 
-        //[HttpGet]
-        //[ProducesResponseType(200)]
-        //[ProducesResponseType(400)]
-        //public IActionResult Get(bool includeItems = true)
-        //{
-        //    try
-        //    {
-        //        //mapping
-        //        var includeItemsResult = _applicationRepository.GetAllOrders(includeItems);
-        //        return Ok(_mapper.Map<IEnumerable<OrderViewModel>>(includeItemsResult));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError($"Failed to get orders: {ex}");
-        //        //return BadRequest(ex.Message);
-        //        return BadRequest("Failed to get orders");
-        //    }
-        //}
-
-        //[HttpGet]
-        //[ProducesResponseType(200)]
-        //[ProducesResponseType(400)]
-        //public IActionResult Get(bool includeItems = true)
-        //{
-        //    try
-        //    {
-        //        //mapping
-        //        var mapperGetAllOrders = _applicationRepository.GetAllOrders(includeItems);
-        //        return Ok(_mapper.Map<IEnumerable<OrderViewModel>>(mapperGetAllOrders));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError($"Failed to get orders: {ex}");
-        //        //return BadRequest(ex.Message);
-        //        return BadRequest("Failed to get orders");
-        //    }
-        //}
-
         [HttpGet("{id:int}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -111,13 +73,13 @@ namespace Whomever.Controllers
                 if (ModelState.IsValid)
                 {
                     //reverse map neworder
-                    ////convert model to order
+                    //convert model to order
                     var newOrder = _mapper.Map<OrderViewModel, Order>(model);
 
-                    //spec orderdate to now bc not required
+                    //spec orderdate to today bc not required
                     if (newOrder.OrderDate == DateTime.MinValue)
                     {
-                        newOrder.OrderDate = DateTime.Now;
+                        newOrder.OrderDate = DateTime.Today;
                     }
                     //add to entity neworder
                     _applicationRepository.AddEntity(newOrder);

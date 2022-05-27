@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Whomever.Data;
 using Whomever.Models;
 
@@ -47,6 +48,8 @@ namespace Whomever.Controllers
             return View();
         }
 
+        //user have to be signed in to use webshop
+        [Authorize]
         public IActionResult WebShop()
         {
             //passing data from db to view

@@ -19,24 +19,6 @@ namespace Whomever.Data
             _applicationDbContext.Add(model);
         }
 
-        //public IEnumerable<Order> GetAllOrders(bool includeItems)
-        //{
-        //    try
-        //    {
-        //        _logger.LogInformation("GetAllOrders was called");
-        //        return _applicationDbContext.Orders
-        //            .Include(o => o.Items)
-        //            .ThenInclude(p => p.Product)
-        //            .OrderBy(o => o.OrderDate)
-        //            .ToList();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError($"Failed to call GetAllOrders: {ex}");
-        //        return Enumerable.Empty<Order>();
-        //    }
-        //}
-
         public IEnumerable<Order> GetAllOrders(bool includeItems)
         {
             if (includeItems)

@@ -3,6 +3,8 @@ using Whomever.Areas.ContactUsService;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Reflection;
+using Whomever.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 
 //using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 
@@ -23,6 +25,12 @@ namespace Whomever
             //services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme)
             //    .AddAzureADBearer(options => Configuration.Bind("AzureAd", options));
             //services.AddControllers();
+            services.AddIdentity<ApplicationUser, IdentityRole>(cfg =>
+            {
+                cfg.User.RequireUniqueEmail = true;
+                //cfg.Password.RequiredUniqueChars = 1;
+            })
+       .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddDbContext<ApplicationDbContext>(options =>
        options.UseSqlServer(
            Configuration.GetConnectionString("DefaultConnection")));
@@ -51,13 +59,13 @@ namespace Whomever
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                //app.UseHsts();
+                app.UseHsts();
             }
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(cfg =>
             {
                 cfg.MapControllerRoute("default",
