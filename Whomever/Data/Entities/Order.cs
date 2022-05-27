@@ -11,6 +11,7 @@ namespace Whomever.Data.Entities
         public string? OrderNumber { get; set; }
 
         //relate order entity to orderitem entity w one-to-many relationship
+        //not to me removed yet----->?
         public ICollection<OrderItem>? Items { get; set; }
 
         //relate order entity to applicationuser

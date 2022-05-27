@@ -18,6 +18,7 @@ namespace Whomever.Controllers
             _logger = logger;
         }
 
+        //get seed data db products
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -30,10 +31,10 @@ namespace Whomever.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to get products: {ex}");
+                _logger.LogError($"Unable to get products: {ex}");
                 //400
                 //return BadRequest(ex.Message);
-                return BadRequest("Failed to get products");
+                return BadRequest("Unable to get products");
             }
         }
     }

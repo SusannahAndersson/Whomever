@@ -12,7 +12,9 @@ namespace Whomever.Data
         //bool includeitems = enable to return api uri w/wo itemsarray
         IEnumerable<Order> GetAllOrders(bool includeItems);
 
-        Order GetOrderById(int id);
+        Order GetOrderById(string applicationUserName, int id);
+
+        IEnumerable<Order> GetOrderByUser(string applicationUserName, bool includeItems);
 
         void AddEntity(object model);
 

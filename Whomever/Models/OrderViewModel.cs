@@ -12,7 +12,13 @@ namespace Whomever.Models
         [MinLength(1)]
         public string OrderNumber { get; set; }
 
-        //view items dep orderid (api url)
-        public ICollection<OrderItemViewModel> Items { get; set; }
+        //┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓
+        //nullable ? --> enables postman post new order for jwt applicationuser with empty array
+        //not to be removed yet xD
+        public ICollection<OrderItemViewModel>? Items { get; set; }
+
+        //not to be removed yet xD
+        //nullable ? --> enables postman post new order for jwt applicationuser with empty array
+        //┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓┏━✦❘༻༺❘✦━━┓
     }
 }

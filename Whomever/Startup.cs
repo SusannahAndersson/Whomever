@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using System.Reflection;
 using Whomever.Data.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 //using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 
@@ -31,6 +33,17 @@ namespace Whomever
                 //cfg.Password.RequiredUniqueChars = 1;
             })
        .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddAuthentication()
+        .AddCookie()
+        .AddJwtBearer(cfg =>
+            {
+                cfg.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidIssuer = Configuration["Tokens:Issuer"],
+                    ValidAudience = Configuration["Tokens:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                };
+            });
             services.AddDbContext<ApplicationDbContext>(options =>
        options.UseSqlServer(
            Configuration.GetConnectionString("DefaultConnection")));

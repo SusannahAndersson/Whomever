@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Whomever.Data.Entities;
 
 namespace Whomever.Data
@@ -7,11 +8,13 @@ namespace Whomever.Data
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly ILogger<ApplicationRepository> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ApplicationRepository(ApplicationDbContext applicationDbContext, ILogger<ApplicationRepository> logger)
+        public ApplicationRepository(ApplicationDbContext applicationDbContext, ILogger<ApplicationRepository> logger, UserManager<ApplicationUser> userManager)
         {
             _applicationDbContext = applicationDbContext;
             _logger = logger;
+            _userManager = userManager;
         }
 
         public void AddEntity(object model)
@@ -40,34 +43,51 @@ namespace Whomever.Data
         {
             try
             {
-                _logger.LogInformation("GetAllProducts was called");
+                _logger.LogInformation("Log information: ApplicationRepository/GetAllProducts was called");
                 return _applicationDbContext.Products
                     .OrderBy(p => p.Title)
                     .ToList();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to call GetAllProducts: {ex}");
+                _logger.LogError($"Log Error: Unable to call ApplicationRepository/GetAllProducts {ex}");
                 return Enumerable.Empty<Product>();
             }
         }
 
-        public Order GetOrderById(int id)
+        public Order GetOrderById(string applicationUserName, int id)
         {
             try
             {
-                _logger.LogInformation("GetOrderById was called");
+                _logger.LogInformation("Log information: ApplicationRepository/GetOrderById was called");
                 return _applicationDbContext.Orders
                     .Include(o => o.Items)
                     .ThenInclude(p => p.Product)
-                    .Where(i => i.Id == id)
+                    .Where(i => i.Id == id && i.User.UserName == applicationUserName)
                     .OrderBy(o => o.OrderDate)
                     .FirstOrDefault();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to call GetOrderById: {ex}");
+                _logger.LogError($"Log Error: Unable to call ApplicationRepository/GetOrderById {ex}");
                 return null;
+            }
+        }
+
+        public IEnumerable<Order> GetOrderByUser(string applicationUserName, bool includeItems)
+        {
+            if (includeItems)
+            {
+                return _applicationDbContext.Orders
+                  .Where(u => u.User.UserName == applicationUserName)
+                  .Include(o => o.Items)
+                  .ThenInclude(i => i.Product)
+                  .ToList();
+            }
+            else
+            {
+                return _applicationDbContext.Orders
+                  .ToList();
             }
         }
 
@@ -76,7 +96,7 @@ namespace Whomever.Data
         {
             try
             {
-                _logger.LogInformation("GetProductsByCategory successfully");
+                _logger.LogInformation("Log information: ApplicationRepository/GetProductsByCategory was called");
                 return _applicationDbContext.Products
                     .Where(p => p.Category == Category)
                     //.OrderByDescending(p => p.Title)
@@ -84,7 +104,7 @@ namespace Whomever.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to call GetProductsByCategory: {ex}");
+                _logger.LogError($"Log Error: Unable to call ApplicationRepository/GetProductsByCategory {ex}");
                 return null;
             }
         }

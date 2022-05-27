@@ -25,7 +25,6 @@ namespace Whomever.Data
             _applicationDbContext.Database.EnsureCreated();
             //with user
             ApplicationUser applicationUser = await _userManager.FindByEmailAsync("susannah@whomever.com");
-
             if (applicationUser == null)
             {
                 applicationUser = new ApplicationUser()
@@ -35,14 +34,12 @@ namespace Whomever.Data
                     Email = "susannah@whomever.com",
                     UserName = "susannah@whomever.com"
                 };
-
                 var createUser = await _userManager.CreateAsync(applicationUser, "Passw0rd!");
                 if (createUser != IdentityResult.Success)
                 {
-                    throw new InvalidOperationException("Failed to add new user");
+                    throw new InvalidOperationException("Unable to add new user");
                 }
             }
-
             if (!_applicationDbContext.Products.Any())
             {
                 //create seed data from whproduct.json but combine string path

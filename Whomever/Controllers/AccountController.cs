@@ -1,22 +1,28 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Whomever.Data.Entities;
 using Whomever.Models;
 
 namespace Whomever.Controllers
 {
-    //[Route("api/[Controller]")]
-    //[ApiController]
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _configuration;
 
-        public AccountController(ILogger<AccountController> logger, SignInManager<ApplicationUser> signInManager)
+        public AccountController(ILogger<AccountController> logger, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             _logger = logger;
             _signInManager = signInManager;
+            _userManager = userManager;
+            _configuration = configuration;
         }
 
         public IActionResult Login()
@@ -61,6 +67,53 @@ namespace Whomever.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        //usage: create jwt token for signed and valid applicationuser
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(300)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
+        {
+            //only create token if login is successful=valid
+            if (ModelState.IsValid)
+            {
+                //find applicationuser by username(email) from model
+                var applicationUser = await _userManager.FindByNameAsync(model.UserName);
+                //if user is found then check password (not using cookies) to validate if match
+                if (applicationUser != null)
+                {
+                    var checkUser = await _signInManager.CheckPasswordSignInAsync(applicationUser, model.Password, false);
+                    //if password matches username then create token
+                    if (checkUser.Succeeded)
+                    {
+                        ////    await _userManager.CreateAsync(applicationUser);
+                        var tokenClaim = new[]
+                        {
+              //sub subject since username=email
+              new Claim(JwtRegisteredClaimNames.Sub, applicationUser.Email),
+              //imp pro
+              //new Claim(JwtRegisteredClaimNames.Email, applicationUser.Email),
+              //unique name f e obj mapped controller-view
+              new Claim(JwtRegisteredClaimNames.UniqueName, applicationUser.UserName),
+              //unique string fe token
+              new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+                        //need key to sign validate token
+                        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
+                        var signCreds = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha384);
+                        var jwtToken = new JwtSecurityToken(_configuration["Tokens:Issuer"], _configuration["Tokens:Audience"], tokenClaim, expires: DateTime.UtcNow.AddHours(1), signingCredentials: signCreds);
+                        var stringToken = new
+                        {
+                            jwtToken = new JwtSecurityTokenHandler().WriteToken(jwtToken),
+                            expiration = jwtToken.ValidTo
+                        };
+                        return Created("", stringToken);
+                    }
+                }
+            }
+            return BadRequest();
         }
     }
 }

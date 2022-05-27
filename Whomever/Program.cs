@@ -11,7 +11,6 @@ namespace Whomever
             if (args.Length > 0 && args[0].ToLower() == "/seed")
             {
                 SeedDatabase(host);
-                return;
             }
             else
             {

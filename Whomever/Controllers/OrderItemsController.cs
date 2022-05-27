@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Whomever.Data;
 using Whomever.Data.Entities;
@@ -10,6 +12,7 @@ namespace Whomever.Controllers
 {
     [Route("api/orders/{orderId}/items")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrderItemsController : Controller
     {
         private readonly IApplicationRepository _applicationRepository;
@@ -23,24 +26,24 @@ namespace Whomever.Controllers
             _mapper = mapper;
         }
 
-        //to get items from a specific order dep orderid
+        //usage: get orderitems (items) from a specific order depending on orderid
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public IActionResult Get(int orderId)
         {
-            var orderItem = _applicationRepository.GetOrderById(orderId);
+            var orderItem = _applicationRepository.GetOrderById(User.Identity.Name, orderId);
             if (orderItem != null) return Ok(_mapper.Map<IEnumerable<OrderItemViewModel>>(orderItem.Items));
             return NotFound();
         }
 
-        //to get orderitemid(=id)
+        //usage: get orderitems from a specific order depending on orderitemid(=id)
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public IActionResult Get(int orderId, int id)
         {
-            var orderItem = _applicationRepository.GetOrderById(orderId);
+            var orderItem = _applicationRepository.GetOrderById(User.Identity.Name, id);
             if (orderItem != null)
             {
                 var orderItemId = orderItem.Items.Where(i => i.Id == id).FirstOrDefault();

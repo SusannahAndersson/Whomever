@@ -48,8 +48,6 @@ namespace Whomever.Controllers
             return View();
         }
 
-        //user have to be signed in to use webshop
-        [Authorize]
         public IActionResult WebShop()
         {
             //passing data from db to view
