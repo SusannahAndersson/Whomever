@@ -4,14 +4,7 @@ using Whomever.Data.Entities;
 
 namespace Whomever.Data
 {
-    //public class ApplicationDbContext : IdentityDbContext
-    //{
-    //    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    //        : base(options)
-    //    {
-    //    }
-    //}
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 
@@ -22,11 +15,17 @@ namespace Whomever.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    base.OnConfiguring(optionsBuilder);
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
 
-        //    optionsBuilder.UseSqlServer();
-        //}
+            builder.Entity<Order>()
+        .HasData(new Order()
+        {
+            Id = 1,
+            OrderDate = DateTime.Today,
+            OrderNumber = "1",
+        });
+        }
     }
 }

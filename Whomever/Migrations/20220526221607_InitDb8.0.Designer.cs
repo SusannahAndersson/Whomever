@@ -9,11 +9,11 @@ using Whomever.Data;
 
 #nullable disable
 
-namespace Whomever.Data.Migrations
+namespace Whomever.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220525071201_nullableorder")]
-    partial class nullableorder
+    [Migration("20220526221607_InitDb8.0")]
+    partial class InitDb80
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
