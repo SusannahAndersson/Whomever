@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Whomever.Data.Entities;
 using Whomever.Models;
 
 namespace Whomever.Controllers
 {
+    //[Route("api/[Controller]")]
+    //[ApiController]
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
@@ -26,7 +29,8 @@ namespace Whomever.Controllers
             return View();
         }
 
-        //post back to server from sumbit in views login form
+        //usage: enables applicationuser to be redirected to webshop page (homecontroller) if login succeeds
+        //when user submit --> post back to server triggered from login btn in views/account/login form
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -39,23 +43,24 @@ namespace Whomever.Controllers
                   model.Password,
                   model.RememberMe,
                   false);
-
                 if (loginResult.Succeeded)
                 {
-                    if (Request.Query.Keys.Contains("ReturnUrl"))
-                    {
-                        return Redirect(Request.Query["ReturnUrl"].First());
-                    }
-                    else
-                    {
-                        RedirectToAction("WebShop", "Home");
-                    }
+                    return RedirectToAction("WebShop", "Home");
                 }
             }
-
-            ModelState.AddModelError("", "Failed to login");
-
+            ModelState.AddModelError("", "Wrong email or password, please try again");
             return View();
+        }
+
+        //usage: enables applicationuser to sign out from webshop
+        //note: this option is only available if applicationuser already is signed in, views/shared/layout
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
