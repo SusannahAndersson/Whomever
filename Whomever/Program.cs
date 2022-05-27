@@ -11,6 +11,7 @@ namespace Whomever
             if (args.Length > 0 && args[0].ToLower() == "/seed")
             {
                 SeedDatabase(host);
+                return;
             }
             else
             {
@@ -23,7 +24,7 @@ namespace Whomever
             var scopeFactory = host.Services.GetService<IServiceScopeFactory>();
             using var scope = scopeFactory.CreateScope();
             var appSeeder = scope.ServiceProvider.GetService<ApplicationSeeder>();
-            appSeeder.Seed();
+            appSeeder.SeedAsync().Wait();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
