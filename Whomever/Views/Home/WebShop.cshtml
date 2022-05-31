@@ -1,8 +1,12 @@
 ﻿@model IEnumerable<Product>
-<h1>WebShop</h1>
-<p>Count: @Model.Count()</p>
-<div class="row">
-    @foreach (var p in Model)
+@section Scripts {
+    <script src="~ts/main.js"></script>
+    <script src="~/user.js"></script>
+}
+    <h1>WebShop</h1>
+    <p>Count: @Model.Count()</p>
+    <div class="row">
+        @foreach (var p in Model)
     {
         <div class="col-md-3">
             <div class="border bg-white rounded p-1">
