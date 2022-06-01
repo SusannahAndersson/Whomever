@@ -47,6 +47,20 @@ namespace Whomever.Data
                 var readFile = File.ReadAllText(filePath);
                 var addProducts = JsonSerializer.Deserialize<IEnumerable<Product>>(readFile);
                 _applicationDbContext.Products.AddRange(addProducts);
+
+                /*
+                 //if db fails big time:
+                var order = new Order()
+                                {
+                                    OrderDate = DateTime.Today,
+                                    OrderNumber = "5001",
+                                };
+                _applicationDbContext.Orders.Add(order);
+                _applicationDbContext.SaveChanges();
+
+                //var dbOrder = _applicationDbContext.Orders.FirstOrDefault();
+
+                 */
                 //adds newly created applicationUser to order w id=1 from dbcontext builder
                 var dbOrder = _applicationDbContext.Orders.Where(o => o.Id == 1).FirstOrDefault();
                 if (dbOrder != null)
