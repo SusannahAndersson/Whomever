@@ -45,10 +45,11 @@ namespace Whomever.Controllers
             if (ModelState.IsValid)
             {
                 var loginResult = await _signInManager.PasswordSignInAsync(
-                    model.UserName,
+                  model.UserName,
                   model.Password,
                   model.RememberMe,
                   false);
+
                 if (loginResult.Succeeded)
                 {
                     return RedirectToAction("WebShop", "Home");
@@ -76,7 +77,7 @@ namespace Whomever.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
         {
-            //only create token if login is successful=valid
+            //only create token if model and login is successful=valid
             if (ModelState.IsValid)
             {
                 //find applicationuser by username(email) from model
@@ -114,6 +115,41 @@ namespace Whomever.Controllers
                 }
             }
             return BadRequest();
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var registerUser = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                };
+
+                var registerResult = await _userManager.CreateAsync(registerUser, model.Password);
+
+                if (registerResult.Succeeded)
+                {
+                    await _signInManager.SignInAsync(registerUser, isPersistent: false);
+                    return RedirectToAction("WebShop", "Home");
+                }
+
+                foreach (var error in registerResult.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                ModelState.AddModelError("", "Invalid Register Attempt");
+            }
+            return View(model);
         }
     }
 }

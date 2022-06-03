@@ -30,8 +30,10 @@ namespace Whomever
             services.AddIdentity<ApplicationUser, IdentityRole>(cfg =>
             {
                 cfg.User.RequireUniqueEmail = true;
+                cfg.Password.RequireDigit = false;
                 //cfg.Password.RequiredUniqueChars = 1;
             })
+
        .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddAuthentication()
         .AddCookie()
@@ -82,8 +84,8 @@ namespace Whomever
             app.UseEndpoints(cfg =>
             {
                 cfg.MapControllerRoute("default",
-            "{controller}/{action}/{id?}",
-            new { controller = "Home", action = "Index" });
+            "{controller}/{action}/{id}",
+            new { controller = "Home", action = "Index", id = "?" });
                 cfg.MapRazorPages();
             });
         }
