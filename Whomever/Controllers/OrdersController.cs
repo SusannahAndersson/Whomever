@@ -28,6 +28,7 @@ namespace Whomever.Controllers
             _userManager = userManager;
         }
 
+        //usage: gets orders made by aspplicationuser
         //bool includeitems = optional parameter
         //return getallorders collection
         [HttpGet]
@@ -49,6 +50,7 @@ namespace Whomever.Controllers
             }
         }
 
+        //usage: gets orders by orderid made by applicationuser (http://localhost:5500/api/orders/1)
         [HttpGet("{id:int}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

@@ -18,10 +18,10 @@ namespace Whomever.Data
             _userManager = userManager;
         }
 
-        //seed db
+        //seeds db w async
         public async Task SeedAsync()
         {
-            //seeddb
+            //seeddb if not already seeded
             _applicationDbContext.Database.EnsureCreated();
             //with user
             ApplicationUser applicationUser = await _userManager.FindByEmailAsync("susannah@whomever.com");
@@ -42,7 +42,7 @@ namespace Whomever.Data
             }
             if (!_applicationDbContext.Products.Any())
             {
-                //create seed data from whproduct.json but combine string path
+                //create seed data from whproduct.json but combine string path wwwroot
                 var filePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Data/whproduct.json");
                 var readFile = File.ReadAllText(filePath);
                 var addProducts = JsonSerializer.Deserialize<IEnumerable<Product>>(readFile);
