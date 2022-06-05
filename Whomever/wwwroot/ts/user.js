@@ -1,11 +1,10 @@
-var User = /** @class */ (function () {
-    function User(firstName, lastName) {
+class AppUser {
+    constructor(firstName, lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-    User.prototype.showName = function () {
-        alert("".concat(this.firstName, " ").concat(this.lastName));
-    };
-    return User;
-}());
+    showName() {
+        alert(`${this.firstName} ${this.lastName}`);
+    }
+}
 //# sourceMappingURL=user.js.map

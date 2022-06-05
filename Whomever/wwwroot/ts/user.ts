@@ -1,4 +1,4 @@
-﻿class User {
+﻿class AppUser {
     constructor(private firstName: string, private lastName: string) {
     }
 

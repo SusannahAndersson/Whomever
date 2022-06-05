@@ -1,2 +1,2 @@
-﻿const user = new User("Susannah", "Andersson");
-user.showName();
+﻿let appUser = new AppUser("Susannah", "Andersson");
+appUser.showName();

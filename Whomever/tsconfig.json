@@ -3,6 +3,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "module": "None",
+    "target": "ES6",
     "sourceMap": true
   }
 }
