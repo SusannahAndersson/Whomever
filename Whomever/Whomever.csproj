@@ -8,6 +8,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="client\src\assets\img\**" />
+	  <Content Remove="client\src\assets\img\**" />
+	  <EmbeddedResource Remove="client\src\assets\img\**" />
+	  <None Remove="client\src\assets\img\**" />
+	  <TypeScriptCompile Remove="client\src\assets\img\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Include="..\.editorconfig" Link=".editorconfig" />
 	</ItemGroup>
 

@@ -1,5 +1,6 @@
 <div class="container-product">
   <div class="row">
+    <!--//p=one-->
     <div class="col-md-3" *ngFor="let p of webShop.products">
       <div class="border bg-white rounded p-1">
         <img src="/img/{{ p.productId }}.jpg" class="img-fluid product-img" alt="{{ p.category }}" />
@@ -10,7 +11,7 @@
           <li>{{ p.brand }}</li>
           <li><i>{{ p.description }}</i></li>
         </ul>
-        <button id="addtocartButton" class="btn btn-outline-dark btn-sm float-right">Add to cart</button>
+        <button id="addToCartButton" class="btn btn-outline-dark btn-sm" (click)="webShop.addToOrder(p)">Add to cart</button>
       </div>
     </div>
   </div>

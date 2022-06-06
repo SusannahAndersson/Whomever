@@ -11,7 +11,7 @@ $(document).ready(function () {
     var theForm = $("#theForm");
     theForm.hide();
 
-    var button = $("#addtocartButton");
+    var button = $("#addToCartButton");
     button.on("click", function () {
         console.log("Added to cart");
     });

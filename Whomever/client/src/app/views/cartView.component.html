@@ -1,0 +1,33 @@
+<table class="table table-sm table-hover">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>Product</th>
+      <th>Qty</th>
+      <th>Price</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let o of webShop.order.items">
+      <td></td>
+      <td><img src="/img/{{ o.productProductId }}.jpg" alt="{{ o.productCategory }}" class="product-thumbnail" /></td>
+      <td>{{ o.productCategory }}</td>
+      <td>{{ o.quantity }}</td>
+      <td>{{ o.unitPrice }}kr</td>
+      <td>{{ (o.unitPrice * o.quantity) }}kr</td>
+    </tr>
+  </tbody>
+  <tfoot>   
+    <tr>
+      <!-- <td>Article categories {{ webShop.order.items.length }}</td>-->
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><strong>Total</strong></td>
+      <td>{{ webShop.order.total }}kr</td>
+    </tr>
+  </tfoot>
+</table>
