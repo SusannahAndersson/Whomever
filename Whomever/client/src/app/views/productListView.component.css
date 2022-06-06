@@ -1,0 +1,12 @@
+.container-product {
+  text-align: center;
+}
+
+.product-img {
+  border: 1px #DDDDDD solid;
+  margin: 1px;
+}
+
+.product-list {
+  font-size: 1rem;
+}

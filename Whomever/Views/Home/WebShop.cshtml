@@ -1,12 +1,17 @@
 ﻿@model IEnumerable<Product>
 @section Scripts {
-    @*<script type="text/javascript" src="./Whomever/wwwroot/ts/main.js"></script>
-    <script type="text/javascript" src="./Whomever/wwwroot/ts/user.js"></script>
-*@
-<script src="/./ts/user.js"></script>
-<script src="/./ts/main.js"></script>
-
+ 
+  <script src="/client/polyfills.js"></script>
+  <script src="/client/runtime.js"></script>
+  <script src="/client/main.js" asp-append-version="true"></script>
 }
+@section head {
+  <link href="/client/styles.css" rel="stylesheet" />
+}
+<web-shop></web-shop>
+
+
+@*}
     <h1>WebShop</h1>
     <p>Count: @Model.Count()</p>
     <div class="row">
@@ -28,4 +33,4 @@
             </div>
         </div>
     }
-</div>
+</div>*@
