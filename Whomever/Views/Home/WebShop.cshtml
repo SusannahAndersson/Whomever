@@ -6,13 +6,15 @@
   <script src="/client/main.js" asp-append-version="true"></script>
 }
 @section head {
+    <base href="/home/Webshop" />
   <link href="/client/styles.css" rel="stylesheet" />
+
 }
-<web-shop></web-shop>
+<webshop></webshop>
 
 
 @*}
-    <h1>WebShop</h1>
+    <h1>Webshop</h1>
     <p>Count: @Model.Count()</p>
     <div class="row">
         @foreach (var p in Model)

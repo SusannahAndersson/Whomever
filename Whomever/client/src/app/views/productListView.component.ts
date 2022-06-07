@@ -6,11 +6,13 @@ import { Webshop } from "../services/webshop.service";
   templateUrl: "productListView.component.html",
   styleUrls: ["productListView.component.css"]
 })
+
 export default class ProductListView implements OnInit {
-  constructor(public webShop: Webshop) {
+
+  constructor(public webshop: Webshop) {
   }
   ngOnInit(): void {
-    this.webShop.loadProducts()
+    this.webshop.loadProducts()
       //starts loadproducts from webshop.service
       .subscribe(() => {
       });

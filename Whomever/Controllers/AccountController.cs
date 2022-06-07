@@ -52,7 +52,7 @@ namespace Whomever.Controllers
 
                 if (loginResult.Succeeded)
                 {
-                    return RedirectToAction("WebShop", "Home");
+                    return RedirectToAction("Webshop", "Home");
                 }
             }
             ModelState.AddModelError("", "Wrong email or password, please try again");
@@ -140,7 +140,7 @@ namespace Whomever.Controllers
                 if (registerResult.Succeeded)
                 {
                     await _signInManager.SignInAsync(registerUser, isPersistent: false);
-                    return RedirectToAction("WebShop", "Home");
+                    return RedirectToAction("Webshop", "Home");
                 }
 
                 foreach (var error in registerResult.Errors)

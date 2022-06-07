@@ -1,3 +1,4 @@
+<h3>Cart</h3>
 <table class="table table-sm table-hover">
   <thead>
     <tr>
@@ -10,24 +11,26 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let o of webShop.order.items">
+    <tr *ngFor="let o of webshop.order.items">
       <td></td>
-      <td><img src="/img/{{ o.productProductId }}.jpg" alt="{{ o.productCategory }}" class="product-thumbnail" /></td>
+      <td><img src="/img/{{ o.productProductId }}.jpg" alt="{{ o.productCategory }}" class="img-thumbnail product-thumbnail" /></td>
       <td>{{ o.productCategory }}</td>
       <td>{{ o.quantity }}</td>
       <td>{{ o.unitPrice }}kr</td>
       <td>{{ (o.unitPrice * o.quantity) }}kr</td>
     </tr>
   </tbody>
-  <tfoot>   
+  <tfoot>
     <tr>
-      <!-- <td>Article categories {{ webShop.order.items.length }}</td>-->
+      <td></td>
+      <!-- <td>Article categories {{ webshop.order.items.length }}</td>-->
+      <!--<td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
+      <td></td>-->
       <td><strong>Total</strong></td>
-      <td>{{ webShop.order.total }}kr</td>
+      <td>{{ webshop.order.total }}kr</td>
     </tr>
   </tfoot>
 </table>
+<a class="btn btn-dark btn-sm" *ngIf="webshop.order.items.length > 0" routerLink="/checkout">Checkout</a>

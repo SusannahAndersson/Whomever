@@ -7,6 +7,6 @@ import { Webshop } from "../services/webshop.service";
   styleUrls: ["cartView.component.css"]
 })
 export class CartView {
-  constructor(public webShop: Webshop) {
+  constructor(public webshop: Webshop) {
   }
 }

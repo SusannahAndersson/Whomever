@@ -48,7 +48,7 @@ namespace Whomever.Controllers
             return View();
         }
 
-        public IActionResult WebShop()
+        public IActionResult Webshop()
         {
             //passing data from db to view
             var productResults = _applicationRepository.GetAllProducts();
