@@ -1,0 +1,47 @@
+<div class="row">
+  <h3>Confirm Order</h3>
+    <table class="table table-sm table-hover">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th>Product</th>
+          <th>Name</th>
+          <th>Brand</th>
+          <th>Size</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of webshop.order.items">
+          <td></td>
+          <td><img src="/img/{{ c.productProductId }}.jpg" alt="{{ c.productCategory }}" class="img-thumbnail checkout-thumbnail" /></td>
+          <td>{{ c.productCategory }}</td>
+          <td>{{ c.productTitle }}</td>
+          <td>{{ c.productBrand }}</td>
+          <td>{{ c.productSize }}</td>
+          <td>{{ c.quantity }}</td>
+          <td>{{ c.unitPrice }}kr</td>
+          <td>{{ (c.unitPrice * c.quantity) }}kr</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="col-md-4 col-md-offset-8">
+      <table class="table table-sm table-hover">
+        <tr>
+          <td><strong>Total</strong></td>
+          <td>{{ webshop.order.total }}kr</td>
+        </tr>
+        <tr>
+          <td><strong>Estimated shipping</strong></td>
+          <td>Free</td>
+        </tr>
+        <tr>
+          <td><strong>Grand total (Incl. shipping)</strong></td>
+          <td>{{ webshop.order.total }}kr</td>
+        </tr>
+      </table>
+    </div>
