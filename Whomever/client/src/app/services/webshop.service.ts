@@ -3,10 +3,9 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Order, OrderItem } from "../shared/Order";
-import Product from "../shared/Product";
+import Product  from "../shared/Product";
 
 @Injectable()
-
 export default class Webshop {
   constructor(public http: HttpClient) {
   }
@@ -14,14 +13,21 @@ export default class Webshop {
   public products: Product[] = [];
   //(exported)create new order
   public order: Order = new Order();
+  //enabling logged in and auth users to make order
+  public token = "";
+  public expiration = new Date();
   //httpget the seeded productlist from db
   loadProducts(): Observable<void> {
     return this.http.get<[]>("/api/products")
       .pipe(map(data => {
         this.products = data;
         return;
-      }))
+      }));
   }
+  get loginAuth(): boolean {
+    return this.token.length === 0 || this.expiration < new Date();
+  }
+
   //add product to new order
   addToOrder(product: Product) {
     //exported Order.ts orderitem []

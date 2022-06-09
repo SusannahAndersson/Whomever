@@ -1,26 +1,26 @@
-//import { Component} from "@angular/core";
-//import { Router } from "@angular/router";
-//import Webshop from "../services/webshop.service";
+import { Component} from "@angular/core";
+import { Router } from "@angular/router";
+import Webshop from "../services/webshop.service";
 
-///*import { FormsModule } from "@angular/forms";*/
+/*import { FormsModule } from "@angular/forms";*/
 
-//@Component({
-//  selector: "login-page",
-//  templateUrl: "loginPage.component.html",
-//  styleUrls: ["loginPage.component.css"]
-//})
+@Component({
+  selector: "login-page",
+  templateUrl: "loginPage.component.html",
+  styleUrls: ["loginPage.component.css"]
+})
 
-//export default class LoginPage {
-//  constructor(public webshop: Webshop, public router: Router) { }
+export default class LoginPage {
+  constructor(public webshop: Webshop, public router: Router) { }
 
-//  //public n = FormsModule
+  //public n = FormsModule
 
-//  public login = {
-//    email: "",
-//    password: ""
-//  };
+  public loginUser = {
+    email: "",
+    password: ""
+  };
 
-//  onLogin() {
-//    alert("Logging in");
-//  }
-//}
+  onLogin() {
+    alert("Logging in");
+  }
+}

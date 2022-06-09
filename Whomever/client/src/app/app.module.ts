@@ -1,13 +1,17 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
-import  AppComponent  from './app.component';
-import Webshop  from './services/webshop.service';
+import AppComponent from './app.component';
+import { FormsModule } from '@angular/forms';
 import ProductListView from './views/productListView.component';
-import CartView  from './views/cartView.component';
-import  WebshopPage  from './pages/webshopPage.component';
+import CartView from './views/cartView.component';
 import CheckoutPage from './pages/checkoutPage.component';
+import WebshopPage from './pages/webshopPage.component';
+import LoginPage from './pages/loginPage.component';
+import Webshop from './services/webshop.service';
 import Router from './router';
+import Auth from './services/auth.service';
+
 
 @NgModule({
   declarations: [
@@ -15,17 +19,21 @@ import Router from './router';
     ProductListView,
     CartView,
     WebshopPage,
-    CheckoutPage
+    CheckoutPage,
+    LoginPage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    Router
-
+    Router,
+    FormsModule
   ],
   providers: [
-    Webshop
+    Webshop,
+    Auth
   ],
   bootstrap: [AppComponent]
 })
-export default class AppModule { }
+
+export default class AppModule {
+}
