@@ -14,14 +14,15 @@ export class Order {
   orderId: number;
   orderDate: Date = new Date;
   orderNumber: string;
-  //exp orderitem array
+  ////exp orderitem array
   items: OrderItem[] = new Array<OrderItem>();
-  //calculates total value from added items to cart
+
+  ////calculates total value from added items to cart
   get total(): number {
     const calc = this.items.reduce(
       (total, value) => {
         return total + (value.unitPrice * value.quantity);
       }, 0);
     return calc;
-}
+  }
 }

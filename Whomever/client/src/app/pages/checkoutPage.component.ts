@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Webshop } from "../services/webshop.service";
+import Webshop  from "../services/webshop.service";
 
 
 @Component({

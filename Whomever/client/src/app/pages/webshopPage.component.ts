@@ -6,6 +6,6 @@ import { Component } from "@angular/core";
   styleUrls: ["webshopPage.component.css"]
 })
 
-export class WebshopPage {
+export default class WebshopPage {
   public title = "Webshop"
 }

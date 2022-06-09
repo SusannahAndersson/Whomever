@@ -3,11 +3,11 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Order, OrderItem } from "../shared/Order";
-import { Product } from "../shared/Product";
+import Product from "../shared/Product";
 
 @Injectable()
 
-export class Webshop {
+export default class Webshop {
   constructor(public http: HttpClient) {
   }
   //(exported)one productitem array for products
