@@ -1,9 +1,9 @@
-export default class LoginAuth {
+export class LoginAuth {
   token: string;
   expiration: Date;
 }
 
-export class LoginUser {
-  username: string;
-  password: string;
-}
+//export class LoginUser {
+//  username: string;
+//  password: string;
+//}

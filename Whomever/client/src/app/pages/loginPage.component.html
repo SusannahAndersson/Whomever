@@ -1,26 +1,24 @@
-
-  <div class="row">
-    <div class="col-md-4 offset-md-1">
-      <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
-      <form (submit)="onLogin()">
-        <div class="form-group">
-          <label for="username">Email</label>
-          <input type="text" class="form-control" name="username" [(ngModel)]="loginUser.username" #emailField="ngModel" required />
-          <div class="text-danger" *ngIf="emailField.invalid && emailField.errors.required">Email is required</div>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" class="form-control" name="password" [(ngModel)]="loginUser.password" #passwordField="ngModel" required />
-          <div class="text-danger" *ngIf="passwordField.invalid && passwordField.errors.required">Password is required</div>
-          <!--<div class="text-danger" *ngIf="passwordElement.touched && passwordElement.invalid && passwordElement.errors.required">Password is required</div>-->
-        </div>
-        <div class="form-group">
-          <input type="submit" value="Login" class="btn btn-dark" [disabled]="emailField.invalid || passwordField.invalid" />
-          <a routerLink="/" class="btn btn-outline-dark">Cancel</a>
-          <!-- <a href="#" class="btn btn-outline-dark">Cancel</a>-->
-
-        </div>
-      </form>
-      <!--{{loginUser | json}} -->
-    </div>
+<div class="row">
+  <div class="col-md-4 offset-md-1">
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+    <form (submit)="onLogin()">
+      <div class="form-group">
+        <label for="username">Email</label>
+        <input type="text" class="form-control" name="username" [(ngModel)]="props.username" #emailField="ngModel" required />
+        <div class="text-danger" *ngIf="emailField.invalid && emailField.errors.required">Email is required</div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" [(ngModel)]="props.password" #passwordField="ngModel" required />
+        <div class="text-danger" *ngIf="passwordField.invalid && passwordField.errors.required">Password is required</div>
+        <!--<div class="text-danger" *ngIf="passwordElement.touched && passwordElement.invalid && passwordElement.errors.required">Password is required</div>-->
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Login" class="btn btn-dark" [disabled]="emailField.invalid || passwordField.invalid" />
+        <a routerLink="/" class="btn btn-outline-dark">Cancel</a>
+      </div>
+    </form>
+    <!--check formsmodule binding-->
+    <!--{{props | json}} -->
   </div>
+</div>
