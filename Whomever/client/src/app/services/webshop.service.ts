@@ -1,7 +1,9 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import LoginAuth, { LoginUser } from "../shared/LoginAuth";
+
 import { Order, OrderItem } from "../shared/Order";
 import Product  from "../shared/Product";
 
@@ -24,8 +26,20 @@ export default class Webshop {
         return;
       }));
   }
+
+  public loginUser: LoginUser = {
+    username: "",
+    password: ""
+  };
+
   get loginAuth(): boolean {
-    return this.token.length === 0 || this.expiration < new Date();
+    return this.token.length === 0 || this.expiration > new Date();
+  }
+  login(loginUser) {
+    return this.http.post<LoginAuth>("/account/createtoken", loginUser).pipe(map(ct => {
+      this.token = ct.token;
+      this.expiration = ct.expiration;
+    }));
   }
 
   //add product to new order

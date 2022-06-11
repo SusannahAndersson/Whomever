@@ -24,6 +24,8 @@ namespace Whomever
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             //services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme)
             //    .AddAzureADBearer(options => Configuration.Bind("AzureAd", options));
             //services.AddControllers();
@@ -61,8 +63,8 @@ namespace Whomever
               .AddRazorRuntimeCompilation()
               .AddNewtonsoftJson(cfg => cfg.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddRazorPages();
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            //services.AddEndpointsApiExplorer();
+            //services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,6 +75,10 @@ namespace Whomever
                 app.UseDeveloperExceptionPage();
                 //app.UseSwagger();
                 //app.UseSwaggerUI();
+                app.UseCors(builder =>
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader());
             }
             else
             {
@@ -81,7 +87,7 @@ namespace Whomever
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            //app.UseDefaultFiles();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();

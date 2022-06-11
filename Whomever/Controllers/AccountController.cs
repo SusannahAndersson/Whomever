@@ -71,6 +71,7 @@ namespace Whomever.Controllers
         }
 
         //usage: create jwt token for signed and valid applicationuser
+        //[HttpPost("createtoken")]
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(300)]

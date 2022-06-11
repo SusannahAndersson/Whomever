@@ -9,7 +9,7 @@ export default class Auth implements CanActivate {
   constructor(public webshop: Webshop, public router: Router, public ng = FormsModule) {
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    if (this.webshop.loginAuth) {
+    if (this.webshop.loginUser) {
       this.router.navigate(["login"]);
       return false;
     }
