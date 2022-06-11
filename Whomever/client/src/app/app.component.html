@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-12">
     <!--<h3>{{ title }}</h3>-->
+<div *ngIf="webshop.errorMessage" class="alert alert-danger">{{ webshop.errorMessage }}</div>
     <router-outlet></router-outlet>
   </div>
 </div>

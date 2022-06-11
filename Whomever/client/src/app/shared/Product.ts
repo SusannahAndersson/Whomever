@@ -1,4 +1,4 @@
-export default class Product {
+export class Product {
   id: number;
   category: string;
   title: string;

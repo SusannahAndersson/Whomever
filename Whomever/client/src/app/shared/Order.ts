@@ -13,7 +13,8 @@ export class OrderItem {
 export class Order {
   orderId: number;
   orderDate: Date = new Date;
-  orderNumber: string;
+  //need to create random string for ordernumber
+  orderNumber: string = (0 | Math.random() * 9e6).toString(36);
   ////exp orderitem array
   items: OrderItem[] = new Array<OrderItem>();
 

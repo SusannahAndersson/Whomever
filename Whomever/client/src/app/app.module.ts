@@ -1,17 +1,16 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
-import AppComponent from './app.component';
-import { FormsModule } from '@angular/forms';
-import ProductListView from './views/productListView.component';
-import CartView from './views/cartView.component';
-import CheckoutPage from './pages/checkoutPage.component';
-import WebshopPage from './pages/webshopPage.component';
-import LoginPage from './pages/loginPage.component';
-import Webshop from './services/webshop.service';
-import Router from './router';
-import Auth from './services/auth.service';
-
+import { AppComponent } from "./app.component";
+import { ProductListView } from "./views/productListView.component";
+import CartView from "./views/cartView.component";
+import CheckoutPage from "./pages/checkoutPage.component";
+import WebshopPage from "./pages/webshopPage.component";
+import LoginPage from "./pages/loginPage.component";
+import Webshop from "./shared/Webshop";
+import router from "./services/router.services";
+import Auth from "./services/auth.service";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -25,8 +24,8 @@ import Auth from './services/auth.service';
   imports: [
     BrowserModule,
     HttpClientModule,
-    Router,
-    FormsModule
+    FormsModule,
+    router
   ],
   providers: [
     Webshop,
@@ -34,6 +33,4 @@ import Auth from './services/auth.service';
   ],
   bootstrap: [AppComponent]
 })
-
-export default class AppModule {
-}
+export class AppModule { }
