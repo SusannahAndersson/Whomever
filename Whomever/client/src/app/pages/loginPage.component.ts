@@ -1,8 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import Webshop from "../services/webshop.service";
-import { LoginUser } from "../shared/LoginAuth";
-
+import Webshop from "../shared/Webshop";
 /*import { FormsModule } from "@angular/forms";*/
 
 @Component({
@@ -12,31 +10,33 @@ import { LoginUser } from "../shared/LoginAuth";
 })
 
 export default class LoginPage {
-  constructor(public webshop: Webshop, public router: Router) { }
+  constructor(private webshop: Webshop, private router: Router) { }
 
   //public n = FormsModule
-  //errormessage when login fails
-  public errorMessage = "";
+
   //empty property string for loginpage
-  public loginUser: LoginUser = {
+  public props = {
     username: "",
     password: ""
   };
 
-  /*//subscribe to user successfully login via accountcontroller httppost*/
+  //errormessage when login fails
+  public errorMessage = "";
+
+  //subscribe to user successfully login via accountcontroller httppost
   onLogin() {
-    this.webshop.login(this.loginUser).subscribe(() => {
-      ////if successfull --> route auth user to checkoutpage
+    this.webshop.login(this.props).subscribe(() => {
+        //if successfull --> route auth user to checkoutpage
       if (this.webshop.order.items.length > 0) {
         this.router.navigate(["/checkout"]);
       }
-      ////if failed then navigates back
+      //if failed then navigates back
       else {
         this.router.navigate(["/"]);
       }
-      ////log error to console
-    }, error => {
-      console.log(error);
+        ////log error to console
+}, error => {
+  console.log(error);
       this.errorMessage = "Wrong email or password, try again";
     });
   }
