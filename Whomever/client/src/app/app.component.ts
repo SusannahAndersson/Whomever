@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import Webshop from './shared/Webshop';
+import Webshop from './services/webshop.service';
 
 @Component({
   selector: 'webshop',

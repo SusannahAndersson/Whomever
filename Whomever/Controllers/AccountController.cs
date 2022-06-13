@@ -70,12 +70,12 @@ namespace Whomever.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //usage: create jwt token for signed and valid applicationuser
-        //[HttpPost("createtoken")]
+        //usage: create jwt token for signed and valid applicationuser (login and create new order)
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(300)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
         {
             //only create token if model and login is successful=valid
@@ -90,39 +90,55 @@ namespace Whomever.Controllers
                     //if password matches username then create token
                     if (checkUser.Succeeded)
                     {
-                        ////    await _userManager.CreateAsync(applicationUser);
-                        var tokenClaim = new[]
+                        //with claims
+                        var claims = new[]
                         {
-              //sub subject since username=email
-              new Claim(JwtRegisteredClaimNames.Sub, applicationUser.Email),
-              //imp pro
-              //new Claim(JwtRegisteredClaimNames.Email, applicationUser.Email),
-              //unique name f e obj mapped controller-view
-              new Claim(JwtRegisteredClaimNames.UniqueName, applicationUser.UserName),
-              //unique string fe token
-              new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            };
+                            //sub subject since username=email
+                            new Claim(JwtRegisteredClaimNames.Sub,
+                            applicationUser.Email),
+                            //imp pro
+                            //new Claim(JwtRegisteredClaimNames.Email, applicationUser.Email),
+                            //unique string f token
+                            new Claim(JwtRegisteredClaimNames.Jti,
+                            Guid.NewGuid().ToString()),
+                            //unique name f e obj mapped controller-view
+                            new Claim(JwtRegisteredClaimNames.UniqueName,
+                            applicationUser.UserName)};
+
                         //need key to sign validate token
-                        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
-                        var signCreds = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha384);
-                        var jwtToken = new JwtSecurityToken(_configuration["Tokens:Issuer"], _configuration["Tokens:Audience"], tokenClaim, expires: DateTime.UtcNow.AddHours(1), signingCredentials: signCreds);
-                        var stringToken = new
+                        var key = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]
+                            ));
+                        var creds = new SigningCredentials(
+                            key, SecurityAlgorithms.HmacSha384
+                            );
+                        var token = new JwtSecurityToken(
+                          _configuration["Tokens:Issuer"],
+                          _configuration["Tokens:Audience"],
+                          claims,
+                          expires: DateTime.UtcNow.AddHours(1),
+                          signingCredentials: creds);
+
+                        var auth = new
                         {
-                            jwtToken = new JwtSecurityTokenHandler().WriteToken(jwtToken),
-                            expiration = jwtToken.ValidTo
+                            token = new JwtSecurityTokenHandler().WriteToken(token),
+                            expiration = token.ValidTo
                         };
-                        return Created("", stringToken);
+
+                        return Created("", auth);
                     }
                 }
             }
             return BadRequest();
         }
 
+        //returns register/signup view for new users
         public IActionResult Register()
         {
             return View();
         }
 
+        //usage: enables new user to register an account and saves new user to db
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -130,25 +146,27 @@ namespace Whomever.Controllers
         {
             if (ModelState.IsValid)
             {
-                var registerUser = new ApplicationUser
+                var regUser = new ApplicationUser
                 {
                     UserName = model.Email,
                     Email = model.Email,
                 };
 
-                var registerResult = await _userManager.CreateAsync(registerUser, model.Password);
+                var pass = await _userManager.CreateAsync(
+                    regUser, model.Password);
 
-                if (registerResult.Succeeded)
+                if (pass.Succeeded)
                 {
-                    await _signInManager.SignInAsync(registerUser, isPersistent: false);
+                    await _signInManager.SignInAsync(regUser, isPersistent: false);
                     return RedirectToAction("Webshop", "Home");
                 }
 
-                foreach (var error in registerResult.Errors)
+                //displays each error for each prop
+                foreach (var error in pass.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-                ModelState.AddModelError("", "Invalid Register Attempt");
+                ModelState.AddModelError("", $"Unable to register new user {regUser}");
             }
             return View(model);
         }

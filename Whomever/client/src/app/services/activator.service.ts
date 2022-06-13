@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, Router } from "@angular/router";
-import Webshop from "../shared/Webshop";
+import Webshop from "./webshop.service";
 
 @Injectable()
-export default class Auth implements CanActivate {
+export default class Activator implements CanActivate {
   constructor(private webshop: Webshop, private router: Router) {
   }
 
