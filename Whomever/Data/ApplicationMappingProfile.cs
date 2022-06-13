@@ -15,7 +15,8 @@ namespace Whomever.Controllers
                 .ReverseMap();
 
             CreateMap<OrderItem, OrderItemViewModel>()
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(c => c.Product, s => s.Ignore());
         }
     }
 }
