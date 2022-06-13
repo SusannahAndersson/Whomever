@@ -2,15 +2,17 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { LoginAuth } from "./LoginAuth";
-import { Order, OrderItem } from "./Order";
-import { Product } from "./Product";
+import { LoginAuth, LoginCreds } from "../shared/User";
+import { Order, OrderItem } from "../shared/Order";
+import { Product } from "../shared/Product";
 
 @Injectable()
 export default class Webshop {
+  constructor(private http: HttpClient) {
+  }
   //(exported)one productitem array for products
   products: Observable<Product[]>;
-    //(exported)create new order
+  //(exported)create new order
   order = new Order();
   //enabling user auth
   token = "";
@@ -18,8 +20,7 @@ export default class Webshop {
   //exp display error msg
   errorMessage = "";
 
-  constructor(private http: HttpClient) { }
-    //httpget the seeded productlist from db
+  //httpget the seeded productlist from db
   loadProducts() {
     if (this.products) return new Observable();
 
@@ -28,9 +29,9 @@ export default class Webshop {
         this.products = dbdata));
   }
 
-    //add product to (cart) new order
+  //add product to (cart) new order
   addToOrder(product: Product) {
-    let item: OrderItem = this.order.items.find(item =>
+    let item: OrderItem = this.order.items.find(() =>
       item.productId === product.id);
 
     if (item) {
@@ -55,13 +56,17 @@ export default class Webshop {
     return this.token?.length === 0 || this.tokenExpiration > new Date();
   }
 
-  //(login props) create and store client side token
-  login(props) {
-    return this.http.post<LoginAuth>("/account/createtoken", props)
-      .pipe(map(propsToken => {
-        this.token = propsToken.token;
-        this.tokenExpiration = propsToken.expiration;
+  //(login signCreds) create and store client side token
+  login(creds: LoginCreds) {
+    return this.http.post<LoginAuth>("/account/createtoken", creds)
+      .pipe(map(request => {
+        this.token = request.token;
+        this.tokenExpiration = request.expiration;
       }));
+  }
+
+  clearOrder() {
+    this.order = new Order();
   }
 
   //set and use header for token auth since client not store cookieyumyum
@@ -69,10 +74,9 @@ export default class Webshop {
     const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
     return this.http.post("/api/orders", this.order, {
       headers: headers
-    });
-  }
-
-  clearOrder() {
-    this.order = new Order();
+    })
+      .pipe(map(() => {
+        this.order = new Order();
+      }));
   }
 }

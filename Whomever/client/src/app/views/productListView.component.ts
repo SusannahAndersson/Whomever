@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import Webshop from "../shared/Webshop";
+import Webshop from "../services/webshop.service";
 
 @Component({
   selector: "product-list",

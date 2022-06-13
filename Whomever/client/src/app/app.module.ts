@@ -7,9 +7,9 @@ import CartView from "./views/cartView.component";
 import CheckoutPage from "./pages/checkoutPage.component";
 import WebshopPage from "./pages/webshopPage.component";
 import LoginPage from "./pages/loginPage.component";
-import Webshop from "./shared/Webshop";
-import router from "./services/router.services";
-import Auth from "./services/auth.service";
+import Webshop from "./services/webshop.service";
+import router from "./services/router.service";
+import Activator from "./services/activator.service";
 import { FormsModule } from "@angular/forms";
 
 @NgModule({
@@ -29,7 +29,7 @@ import { FormsModule } from "@angular/forms";
   ],
   providers: [
     Webshop,
-    Auth
+    Activator
   ],
   bootstrap: [AppComponent]
 })

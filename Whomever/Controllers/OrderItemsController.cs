@@ -6,12 +6,15 @@ using Whomever.Data;
 using Whomever.Data.Entities;
 using Whomever.Models;
 
-//view items from specific orderid (api uri)
+//[Route("api/orders/{orderId}/items")]
+//[ApiController]
+//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
+//view items from specific orderid (api url)
 
 namespace Whomever.Controllers
 {
     [Route("api/orders/{orderId}/items")]
-    [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrderItemsController : Controller
     {

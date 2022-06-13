@@ -43,11 +43,11 @@ namespace Whomever.Controllers
                 var getUserOrder = _applicationRepository.GetOrderByUser(applicationUserName, includeItems);
                 return Ok(_mapper.Map<IEnumerable<OrderViewModel>>(getUserOrder));
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                _logger.LogError($"Unable to get orders: {ex}");
-                return BadRequest($"Unable to get orders");
+                _logger.LogError($"Unable to get orders: {e}");
             }
+            return BadRequest($"Unable to get orders");
         }
 
         //usage: gets orders by orderid made by applicationuser (http://localhost:5500/api/orders/1)
@@ -63,12 +63,12 @@ namespace Whomever.Controllers
                 if (orderById != null) return Ok(_mapper.Map<Order, OrderViewModel>(orderById));
                 else return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                _logger.LogError($"Unable to get orders: {ex}");
-                //return BadRequest(ex.Message);
-                return BadRequest("Unable to get orders");
+                _logger.LogError($"Unable to get orders: {e}");
+                //return BadRequest(e.Message);
             }
+            return BadRequest("Unable to get orders");
         }
 
         //usage: enables the current and validated applicationuser to create new order and saves order to db
@@ -90,6 +90,7 @@ namespace Whomever.Controllers
                     {
                         newOrder.OrderDate = DateTime.Today;
                     }
+                    //find validated user
                     var modelUser = await _userManager.FindByNameAsync(User.Identity.Name);
                     newOrder.User = modelUser;
                     //add to entity neworder
@@ -104,12 +105,14 @@ namespace Whomever.Controllers
                     return BadRequest(ModelState);
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                _logger.LogError($"Unable to save new order: {ex}");
-                //return BadRequest(ex.Message);
+                _logger.LogError($"Unable to save new order: {e}");
+                //return BadRequest(e.Message);
             }
             return BadRequest("Unable to save new order");
         }
+
+        //httppatch
     }
 }
