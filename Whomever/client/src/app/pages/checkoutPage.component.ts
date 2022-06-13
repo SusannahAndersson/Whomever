@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import Webshop from "../shared/Webshop";
+import Webshop from "../services/webshop.service";
 
 @Component({
   selector: "checkout-page",
@@ -11,6 +11,8 @@ export default class CheckoutPage implements OnInit {
   constructor(public webshop: Webshop, private router: Router) {
   }
 
+  public errorMessage = "";
+
   ngOnInit() {
     if (this.webshop.order.items.length === 0) {
       this.router.navigate(["/"]);
@@ -18,13 +20,15 @@ export default class CheckoutPage implements OnInit {
   }
 
   onCheckout() {
-    this.webshop.errorMessage = "";
+    this.errorMessage = "";
     this.webshop.checkout()
       .subscribe(() => {
         this.webshop.clearOrder();
         this.router.navigate(["/"]);
         alert("Order complete");
-      }, () =>
-        this.webshop.errorMessage = "Unable to complete checkout");
+      }, (error: any) => {
+        console.log(error);
+        this.errorMessage = `Unable to complete checkout ${error}`;
+      })
   }
 }
