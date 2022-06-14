@@ -1,4 +1,5 @@
 <div class="row">
+  <h3>Login</h3>
   <div class="col-md-4 offset-md-1">
     <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
     <form (submit)="onLogin()">
@@ -18,6 +19,9 @@
         <a routerLink="/" class="btn btn-outline-dark">Cancel</a>
       </div>
     </form>
+
+    <!-- <p>Don't have an account!</p>  -->
+    <!--<a class="btn btn-primary" asp-controller="Account" asp-action="Register" id="btn-signup">Sign up New Account</a>-->
     <!--check formsmodule binding-->
     <!--{{creds | json}} -->
   </div>

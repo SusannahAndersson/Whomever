@@ -57,5 +57,9 @@ namespace Whomever.Controllers
             }
             return NotFound();
         }
+        public IActionResult Order()
+        {
+            return View();
+        }
     }
 }

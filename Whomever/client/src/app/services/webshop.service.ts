@@ -19,6 +19,8 @@ export default class Webshop {
   tokenExpiration = new Date();
   //exp display error msg
   errorMessage = "";
+  orders: Observable<Order[]>;
+  //ordersItem: Observable<OrderItem[]>;
 
   //httpget the seeded productlist from db
   loadProducts() {
@@ -31,7 +33,7 @@ export default class Webshop {
 
   //add product to (cart) new order
   addToOrder(product: Product) {
-    let item: OrderItem = this.order.items.find(() =>
+    let item: OrderItem = this.order.items.find((item) =>
       item.productId === product.id);
 
     if (item) {
@@ -79,4 +81,40 @@ export default class Webshop {
         this.order = new Order();
       }));
   }
+
+  loadOrder() {
+    const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
+    if (this.orders) return new Observable();
+
+    return this.http.get<Observable<Order[]>>("/api/orders", {
+      headers: headers
+    })
+      .pipe(map(dbdata =>
+        this.orders = dbdata
+        ));
+  }
 }
+
+//loadOrderItem(){
+//  const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
+//  if (this.orders) return new Observable();
+
+//  return this.http.get<Observable<OrderItem[]>>("/api/orders", {
+//    headers: headers
+//  })
+//    .pipe(map(dbdata =>
+//      this.orders = dbdata
+//    ));
+//}
+
+
+//function loadOrderItem() {
+//  throw new Error("Function not implemented.");
+//}
+
+
+
+
+
+  //http://localhost:5500/api/orders/ this
+  //http://localhost:5500/api/orders?includeitems=true no

@@ -11,6 +11,7 @@ import Webshop from "./services/webshop.service";
 import router from "./services/router.service";
 import Activator from "./services/activator.service";
 import { FormsModule } from "@angular/forms";
+import OrderPage from "./pages/orderPage.component";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormsModule } from "@angular/forms";
     CartView,
     WebshopPage,
     CheckoutPage,
-    LoginPage
+    LoginPage,
+    OrderPage
   ],
   imports: [
     BrowserModule,
