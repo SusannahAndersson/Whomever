@@ -17,6 +17,7 @@ export class Order {
   orderNumber: string = (0 | Math.random() * 9e6).toString(36);
   ////exp orderitem array
   items: OrderItem[] = new Array<OrderItem>();
+  //items: OrderItem[] = [];
 
   ////calculates total value from added items to cart
   get total(): number {
