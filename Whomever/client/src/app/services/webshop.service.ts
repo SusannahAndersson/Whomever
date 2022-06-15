@@ -91,30 +91,18 @@ export default class Webshop {
     })
       .pipe(map(dbdata =>
         this.orders = dbdata
-        ));
+      ));
+  }
+
+  DeleteOrder() {
+    const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
+    if (this.orders) return new Observable();
+
+    return this.http.delete<Observable<Order[]>>("/api/orders", {
+      headers: headers
+    })
+      .pipe(map(dbdata =>
+        this.orders = dbdata
+      ));
   }
 }
-
-//loadOrderItem(){
-//  const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
-//  if (this.orders) return new Observable();
-
-//  return this.http.get<Observable<OrderItem[]>>("/api/orders", {
-//    headers: headers
-//  })
-//    .pipe(map(dbdata =>
-//      this.orders = dbdata
-//    ));
-//}
-
-
-//function loadOrderItem() {
-//  throw new Error("Function not implemented.");
-//}
-
-
-
-
-
-  //http://localhost:5500/api/orders/ this
-  //http://localhost:5500/api/orders?includeitems=true no

@@ -109,6 +109,25 @@ namespace Whomever.Data
             }
         }
 
+        public void RemoveEntity(object model)
+        {
+            _applicationDbContext.Remove(model);
+        }
+
+        public Order RemoveOrder(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Log information: ApplicationRepository/RemoveOrder was called");
+                return _applicationDbContext.Orders.FirstOrDefault(o => o.Id == id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Log Error: Unable to call ApplicationRepository/RemoveOrder {ex}");
+                return null;
+            }
+        }
+
         public bool SaveAll()
         {
             return _applicationDbContext.SaveChanges() > 0;

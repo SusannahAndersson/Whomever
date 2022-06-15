@@ -3,17 +3,17 @@
 </div>
 <div class="container-product">
   <div class="row">
-      <div class="col-md-3" *ngFor="let p of webshop.orders">
-        <div class="border bg-white rounded p-1">
-            <h5>Order Id {{ p.orderId }}</h5>
-            <ul class="product-list list-unstyled">
-              <li>Date: {{ p.orderDate }}</li>
-              <li>Order number: {{ p.orderNumber}}</li>
-              <li>{{ p.items }}</li>
-            </ul>
-            <button id="deleteOrderButton" class="btn btn-outline-dark btn-sm" (click)="webshop.deleteOrder(p)">Delete Order</button>
-        </div>
+    <div class="col-md-3" *ngFor="let p of webshop.orders">
+      <div class="border bg-white rounded p-1">
+        <h5>Order Id {{ p.orderId }}</h5>
+        <ul class="product-list list-unstyled">
+          <li>Date: {{ p.orderDate }}</li>
+          <li>Order number: {{ p.orderNumber}}</li>
+          <li>{{ p.items }}</li>
+        </ul>
+        <button id="deleteOrderButton" class="btn btn-outline-dark btn-sm" (click)="onDeleteOrder()">Delete Order</button>
+        <!--<button  (click)="webshop.deleteOrder(p)">Delete Order</button>-->
       </div>
+    </div>
   </div>
 </div>
-

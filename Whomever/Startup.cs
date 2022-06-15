@@ -14,6 +14,8 @@ namespace Whomever
 {
     public class Startup
     {
+        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,7 +28,7 @@ namespace Whomever
         {
             //services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme)
             //    .AddAzureADBearer(options => Configuration.Bind("AzureAd", options));
-            //services.AddControllers();
+            services.AddControllers();
             services.AddIdentity<ApplicationUser, IdentityRole>(cfg =>
             {
                 cfg.User.RequireUniqueEmail = true;
@@ -61,7 +63,16 @@ namespace Whomever
               .AddRazorRuntimeCompilation()
               .AddNewtonsoftJson(cfg => cfg.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddRazorPages();
-            //services.AddCors();
+            services.AddCors(options =>
+        {
+            options.AddPolicy(name: MyAllowSpecificOrigins,
+                              policy =>
+                              {
+                                  policy.WithOrigins("http://localhost:5500",
+                                                      "http://localhost:4400");
+                              });
+        });
+            services.AddMvc();
             //services.AddEndpointsApiExplorer();
             //services.AddSwaggerGen();
         }
@@ -74,10 +85,10 @@ namespace Whomever
                 app.UseDeveloperExceptionPage();
                 //app.UseSwagger();
                 //app.UseSwaggerUI();
-                //app.UseCors(cfg =>
-                //cfg.AllowAnyOrigin()
-                //.AllowAnyMethod()
-                //.AllowAnyHeader());
+                app.UseCors(cfg =>
+                cfg.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             }
             else
             {
@@ -89,6 +100,7 @@ namespace Whomever
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(cfg =>
