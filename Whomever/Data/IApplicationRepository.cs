@@ -18,6 +18,10 @@ namespace Whomever.Data
 
         void AddEntity(object model);
 
+        Order RemoveOrder(int id);
+
+        void RemoveEntity(object model);
+
         bool SaveAll();
     }
 }

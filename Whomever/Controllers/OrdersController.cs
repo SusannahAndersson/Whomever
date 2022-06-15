@@ -113,6 +113,45 @@ namespace Whomever.Controllers
             return BadRequest("Unable to save new order");
         }
 
-        //httppatch
+        //returns view for httpdelete
+        public IActionResult Delete()
+        {
+            return View();
+        }
+
+        //usage: deletes order with specific orderid from db (http://localhost:5500/api/orders/1)
+        [HttpDelete("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return BadRequest($"Unable to find order id: {id}");
+                }
+                Order orderId = _applicationRepository.RemoveOrder(id);
+                if (orderId == null)
+                {
+                    return BadRequest($"Unable to find order id: {id} in db");
+                }
+                _applicationRepository.RemoveEntity(orderId);
+                if (_applicationRepository.SaveAll())
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Unable to delete order id{id}: {ex}");
+                //return BadRequest(ex.Message);
+            }
+            return BadRequest($"Unable to delete order id{id}");
+        }
     }
 }
