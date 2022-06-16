@@ -94,15 +94,17 @@ export default class Webshop {
       ));
   }
 
-  DeleteOrder() {
-    const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
-    if (this.orders) return new Observable();
+  //getDeleteOrder(id: any) {
+  //  return this.http.delete(this.baseUrl + "/" + id)
+  //}
 
-    return this.http.delete<Observable<Order[]>>("/api/orders", {
+  deleteOrder() {
+    const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
+    return this.http.delete("/api/orders/36", {
       headers: headers
     })
-      .pipe(map(dbdata =>
-        this.orders = dbdata
-      ));
+      .pipe(map(() => {
+        this.order = new Order();
+      }));
   }
 }

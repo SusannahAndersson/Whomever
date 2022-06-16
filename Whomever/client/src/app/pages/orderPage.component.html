@@ -11,8 +11,7 @@
           <li>Order number: {{ p.orderNumber}}</li>
           <li>Product qty: {{ p.items.length }}</li>
         </ul>
-        <button id="deleteOrderButton" class="btn btn-outline-dark btn-sm" (click)="onDeleteOrder()">Delete Order</button>
-        <!--<button  (click)="webshop.deleteOrder(p)">Delete Order</button>-->
+        <button id="deleteOrderButton" class="btn btn-outline-dark btn-sm" (click)="onDeleteOrder(p)">Delete Order</button>
       </div>
     </div>
   </div>

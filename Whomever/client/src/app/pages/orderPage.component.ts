@@ -20,4 +20,18 @@ export default class OrderPage implements OnInit {
       //this.webshop.loadOrderItem()
       .subscribe();
   }
+
+  onDeleteOrder() {
+    this.errorMessage = "";
+    this.webshop.deleteOrder()
+      .subscribe(() => {
+        this.webshop.clearOrder();
+        this.router.navigate(["/"]);
+        alert("Order deleted");
+      }, (error: any) => {
+        console.log(error);
+        this.errorMessage = `Unable to delete order ${error}`;
+      })
+  }
+
 }
