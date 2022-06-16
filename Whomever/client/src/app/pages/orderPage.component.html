@@ -9,7 +9,7 @@
         <ul class="product-list list-unstyled">
           <li>Date: {{ p.orderDate }}</li>
           <li>Order number: {{ p.orderNumber}}</li>
-          <li>{{ p.items }}</li>
+          <li>Product qty: {{ p.items.length }}</li>
         </ul>
         <button id="deleteOrderButton" class="btn btn-outline-dark btn-sm" (click)="onDeleteOrder()">Delete Order</button>
         <!--<button  (click)="webshop.deleteOrder(p)">Delete Order</button>-->
