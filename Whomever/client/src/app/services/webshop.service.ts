@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, pipe } from "rxjs";
 import { map } from "rxjs/operators";
 import { LoginAuth, LoginCreds } from "../shared/User";
 import { Order, OrderItem } from "../shared/Order";
@@ -8,8 +8,11 @@ import { Product } from "../shared/Product";
 
 @Injectable()
 export default class Webshop {
+  url: string;
   constructor(private http: HttpClient) {
+    this.url = "http://localhost:5500/api/orders";
   }
+
   //(exported)one productitem array for products
   products: Observable<Product[]>;
   //(exported)create new order
@@ -20,7 +23,7 @@ export default class Webshop {
   //exp display error msg
   errorMessage = "";
   orders: Observable<Order[]>;
-  //ordersItem: Observable<OrderItem[]>;
+  orderId: number;
 
   //httpget the seeded productlist from db
   loadProducts() {
@@ -86,7 +89,7 @@ export default class Webshop {
     const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
     if (this.orders) return new Observable();
 
-    return this.http.get<Observable<Order[]>>("/api/orders", {
+    return this.http.get<Observable<Order[]>>(this.url, {
       headers: headers
     })
       .pipe(map(dbdata =>
@@ -94,15 +97,16 @@ export default class Webshop {
       ));
   }
 
-  DeleteOrder() {
+  public deleteOrder(orderId: number) {
+    //let orderId = this.order.orderId;
     const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
-    if (this.orders) return new Observable();
-
-    return this.http.delete<Observable<Order[]>>("/api/orders", {
+    return this.http.delete(this.url + "/" + orderId, {
       headers: headers
     })
-      .pipe(map(dbdata =>
-        this.orders = dbdata
-      ));
+      .pipe(map(() => {
+        console.log();
+        this.orderId = this.order.orderId;
+        this.order = new Order();
+      }));
   }
 }

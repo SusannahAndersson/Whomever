@@ -11,6 +11,7 @@ export class OrderItem {
 }
 
 export class Order {
+  //orderId: "";
   orderId: number;
   orderDate: Date = new Date;
   //need to create random string for ordernumber
