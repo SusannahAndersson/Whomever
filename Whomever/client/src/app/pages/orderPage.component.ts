@@ -10,10 +10,11 @@ import Webshop from "../services/webshop.service";
 
 export default class OrderPage implements OnInit {
   public title = "Orders"
+  orderId: number;
+  //orderId: Order;
+  //orders: any[];
   constructor(public webshop: Webshop, private router: Router) {
   }
-  public errorMessage = "";
-
   async ngOnInit() {
     this.router.navigate(["/order"]);
     this.webshop.loadOrder()
@@ -21,9 +22,19 @@ export default class OrderPage implements OnInit {
       .subscribe();
   }
 
+  //public orderId: Order = {
+  //    orderId: "",
+  //    orderDate: new Date(),
+  //    orderNumber: "",
+  //    items: [],
+  //    total: 0
+  //};
+
+  public errorMessage = "";
+
   onDeleteOrder() {
     this.errorMessage = "";
-    this.webshop.deleteOrder()
+    this.webshop.deleteOrder(this.orderId)
       .subscribe(() => {
         this.webshop.clearOrder();
         this.router.navigate(["/"]);
@@ -33,5 +44,4 @@ export default class OrderPage implements OnInit {
         this.errorMessage = `Unable to delete order ${error}`;
       })
   }
-
 }
