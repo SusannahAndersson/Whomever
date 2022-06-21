@@ -11,24 +11,14 @@ import Webshop from "../services/webshop.service";
 export default class OrderPage implements OnInit {
   public title = "Orders"
   orderId: number;
-  //orderId: Order;
-  //orders: any[];
+
   constructor(public webshop: Webshop, private router: Router) {
   }
   async ngOnInit() {
     this.router.navigate(["/order"]);
     this.webshop.loadOrder()
-      //this.webshop.loadOrderItem()
       .subscribe();
   }
-
-  //public orderId: Order = {
-  //    orderId: "",
-  //    orderDate: new Date(),
-  //    orderNumber: "",
-  //    items: [],
-  //    total: 0
-  //};
 
   public errorMessage = "";
 

@@ -98,7 +98,6 @@ export default class Webshop {
   }
 
   public deleteOrder(orderId: number) {
-    //let orderId = this.order.orderId;
     const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
     return this.http.delete(this.url + "/" + orderId, {
       headers: headers
@@ -111,25 +110,14 @@ export default class Webshop {
   }
 
   public cancelOrder(orderId: number) {
-    //let orderId = this.order.orderId;
-    const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
-    return this.http.put(this.url + "/" + orderId, {
+    const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token );
+    return this.http.put(this.url + "/" + orderId , null, {
       headers: headers
     })
       .pipe(map(() => {
         console.log();
         this.orderId = this.order.orderId;
         this.order = new Order();
-
-    ////let orderId = this.order.orderId;
-    //const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
-    //return this.http.put(this.url + "/" + orderId, {
-    //  headers: headers
-    //})
-    //  .pipe(map(() => {
-    //    console.log();
-    //    this.orderId = this.order.orderId;
-    //    this.order = new Order();
       }));
   }
 }
