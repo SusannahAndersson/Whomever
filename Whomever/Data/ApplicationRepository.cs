@@ -22,6 +22,16 @@ namespace Whomever.Data
             _applicationDbContext.Add(model);
         }
 
+        public void UpdateEntity(object model)
+        {
+            _applicationDbContext.Update(model);
+        }
+
+        public void DeleteEntity(object model)
+        {
+            _applicationDbContext.Remove(model);
+        }
+
         public IEnumerable<Order> GetAllOrders(bool includeItems)
         {
             if (includeItems)
@@ -109,21 +119,17 @@ namespace Whomever.Data
             }
         }
 
-        public void RemoveEntity(object model)
-        {
-            _applicationDbContext.Remove(model);
-        }
-
-        public Order RemoveOrder(int id)
+        public Order DeleteOrder(int id)
         {
             try
             {
-                _logger.LogInformation("Log information: ApplicationRepository/RemoveOrder was called");
-                return _applicationDbContext.Orders.FirstOrDefault(o => o.Id == id);
+                _logger.LogInformation("Log information: ApplicationRepository/DeleteOrder was called");
+                return _applicationDbContext.Orders.
+                    FirstOrDefault(o => o.Id == id);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Log Error: Unable to call ApplicationRepository/RemoveOrder {ex}");
+                _logger.LogError($"Log Error: Unable to call ApplicationRepository/DeleteOrder {ex}");
                 return null;
             }
         }

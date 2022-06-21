@@ -18,7 +18,15 @@ namespace Whomever.Controllers
 
         //IActionResult to map logic to view
         public IActionResult Index()
-        {
+        {            //user signed in
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("WebShop", "Home");
+            }
             //var showProducts = _applicationDbContext.Products.ToList();
             return View();
         }
@@ -26,6 +34,7 @@ namespace Whomever.Controllers
         [HttpGet("contact")]
         public IActionResult Contact()
         {
+            return RedirectToAction("Index", "Home");
             return View();
         }
 

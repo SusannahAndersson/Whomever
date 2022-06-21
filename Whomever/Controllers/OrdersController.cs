@@ -131,12 +131,12 @@ namespace Whomever.Controllers
                 {
                     return BadRequest($"Unable to find order id: {id}");
                 }
-                Order orderId = _applicationRepository.RemoveOrder(id);
+                Order orderId = _applicationRepository.DeleteOrder(id);
                 if (orderId == null)
                 {
                     return BadRequest($"Unable to find order id: {id} in db");
                 }
-                _applicationRepository.RemoveEntity(orderId);
+                _applicationRepository.DeleteEntity(orderId);
                 if (_applicationRepository.SaveAll())
                 {
                     return NoContent();
@@ -152,6 +152,61 @@ namespace Whomever.Controllers
                 //return BadRequest(ex.Message);
             }
             return BadRequest($"Unable to delete order id{id}");
+        }
+
+        //returns view for httpput
+        public IActionResult Put()
+        {
+            return View();
+        }
+
+        //usage: updates order with specific orderid from db (http://localhost:5500/api/orders/1),
+        //in this case; updates specific order and returns no items (since order status should return "canceled")
+        //but here; order number returns null instead of order status and thus order number represents order status
+        [HttpPut("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Put(int id, Order order)
+        {
+            try
+            {
+                if (id != order.Id)
+                {
+                    return BadRequest($"Unable to find order id: {id}");
+                }
+
+                Order updateOrder = _applicationRepository.GetOrderById(User.Identity.Name, id);
+                if (updateOrder == null)
+                {
+                    return BadRequest($"Unable to find order id/applicationrepository: {id}");
+                }
+
+                if (id != null)
+                {
+                    var modelUser = await _userManager.FindByNameAsync(User.Identity.Name);
+                    updateOrder.User = modelUser;
+                    updateOrder.Id = id;
+                    updateOrder.OrderDate = DateTime.Now;
+                    updateOrder.OrderNumber = "Canceled";
+                    updateOrder.Items = null;
+                }
+
+                _applicationRepository.UpdateEntity(updateOrder);
+                if (_applicationRepository.SaveAll())
+                {
+                    return Created($"/api/orders/{updateOrder.Id}", _mapper.Map<Order, OrderViewModel>(updateOrder));
+                }
+                else
+                {
+                    return BadRequest($"Unable to update order id: {id}");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Unable to update order: {e}");
+                //return BadRequest(e.Message);
+            }
+            return BadRequest("Unable to update order");
         }
     }
 }

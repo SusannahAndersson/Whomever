@@ -12,15 +12,17 @@ namespace Whomever.Data
         //bool includeitems = enable to return api uri w/wo itemsarray
         IEnumerable<Order> GetAllOrders(bool includeItems);
 
+        IEnumerable<Order> GetOrderByUser(string applicationUserName, bool includeItems);
+
         Order GetOrderById(string applicationUserName, int id);
 
-        IEnumerable<Order> GetOrderByUser(string applicationUserName, bool includeItems);
+        Order DeleteOrder(int id);
 
         void AddEntity(object model);
 
-        Order RemoveOrder(int id);
+        void UpdateEntity(object model);
 
-        void RemoveEntity(object model);
+        void DeleteEntity(object model);
 
         bool SaveAll();
     }
