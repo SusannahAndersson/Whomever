@@ -161,8 +161,8 @@ namespace Whomever.Controllers
         }
 
         //usage: updates order with specific orderid from db (http://localhost:5500/api/orders/1),
-        //in this case; updates specific order and returns no items (since order status should return "canceled")
-        //but here; order number returns null instead of order status and thus order number represents order status
+        //in this case; updates specific order id and returns no items to items array as null (since order status should return "canceled")
+        //but here; order number returns "canceled" instead of order status, thus order number represents order status
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
