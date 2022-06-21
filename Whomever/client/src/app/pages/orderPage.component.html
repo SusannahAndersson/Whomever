@@ -12,6 +12,7 @@
           <li>Product qty: {{ p.items.length }}</li>
         </ul>
         <button id="deleteOrderButton" class="btn btn-outline-dark btn-sm" (click)="onDeleteOrder(p.orderId)">Delete Order</button>
+        <button id="cancelOrderButton" class="btn btn-outline-dark btn-sm" (click)="onCancelOrder(p.orderId)">Cancel Order</button>
       </div>
     </div>
   </div>

@@ -109,4 +109,27 @@ export default class Webshop {
         this.order = new Order();
       }));
   }
+
+  public cancelOrder(orderId: number) {
+    //let orderId = this.order.orderId;
+    const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
+    return this.http.put(this.url + "/" + orderId, {
+      headers: headers
+    })
+      .pipe(map(() => {
+        console.log();
+        this.orderId = this.order.orderId;
+        this.order = new Order();
+
+    ////let orderId = this.order.orderId;
+    //const headers = new HttpHeaders().set("Authorization", "Bearer " + this.token);
+    //return this.http.put(this.url + "/" + orderId, {
+    //  headers: headers
+    //})
+    //  .pipe(map(() => {
+    //    console.log();
+    //    this.orderId = this.order.orderId;
+    //    this.order = new Order();
+      }));
+  }
 }

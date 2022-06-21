@@ -32,9 +32,9 @@ export default class OrderPage implements OnInit {
 
   public errorMessage = "";
 
-  onDeleteOrder() {
+  onDeleteOrder(orderId) {
     this.errorMessage = "";
-    this.webshop.deleteOrder(this.orderId)
+    this.webshop.deleteOrder(orderId)
       .subscribe(() => {
         this.webshop.clearOrder();
         this.router.navigate(["/"]);
@@ -42,6 +42,19 @@ export default class OrderPage implements OnInit {
       }, (error: any) => {
         console.log(error);
         this.errorMessage = `Unable to delete order ${error}`;
+      })
+  }
+
+  onCancelOrder(orderId) {
+    this.errorMessage = "";
+    this.webshop.cancelOrder(orderId)
+      .subscribe(() => {
+        this.webshop.clearOrder();
+        this.router.navigate(["/"]);
+        alert("Order canceled");
+      }, (error: any) => {
+        console.log(error);
+        this.errorMessage = `Unable to cancel order ${error}`;
       })
   }
 }
