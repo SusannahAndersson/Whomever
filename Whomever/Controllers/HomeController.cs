@@ -7,10 +7,10 @@ namespace Whomever.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly Areas.ContactUsService.IContactUsService _contactUsService;
+        private readonly IContactUsService _contactUsService;
         private readonly IApplicationRepository _applicationRepository;
 
-        public HomeController(Areas.ContactUsService.IContactUsService contactUsService, IApplicationRepository applicationRepository)
+        public HomeController(IContactUsService contactUsService, IApplicationRepository applicationRepository)
         {
             _contactUsService = contactUsService;
             _applicationRepository = applicationRepository;
@@ -34,7 +34,6 @@ namespace Whomever.Controllers
         [HttpGet("contact")]
         public IActionResult Contact()
         {
-            return RedirectToAction("Index", "Home");
             return View();
         }
 

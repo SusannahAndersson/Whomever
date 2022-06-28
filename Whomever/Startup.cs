@@ -1,5 +1,4 @@
 ﻿using Whomever.Data;
-using Whomever.Areas.ContactUsService;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Reflection;
@@ -54,7 +53,7 @@ namespace Whomever
             services.AddTransient<ApplicationSeeder>();
             //inject automapper to controllers
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddTransient<IContactUsService, NullContactUsService>();
+            services.AddTransient<IContactUsService, ContactUsService>();
             //reused thru scope
             services.AddScoped<IApplicationRepository, ApplicationRepository>();
             //for testing

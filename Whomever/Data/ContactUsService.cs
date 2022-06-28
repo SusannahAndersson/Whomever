@@ -1,12 +1,13 @@
 ﻿//Only used to log ui to console
 //Interface: in case to actually implement extended mail service usage (with auto ext)
-namespace Whomever.Areas.ContactUsService
-{
-    public class NullContactUsService : IContactUsService
-    {
-        private readonly ILogger<NullContactUsService> _logger;
 
-        public NullContactUsService(ILogger<NullContactUsService> logger)
+namespace Whomever.Data
+{
+    public class ContactUsService : IContactUsService
+    {
+        private readonly ILogger<ContactUsService> _logger;
+
+        public ContactUsService(ILogger<ContactUsService> logger)
         {
             _logger = logger;
         }

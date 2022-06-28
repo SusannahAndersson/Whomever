@@ -5,8 +5,8 @@ namespace Whomever.Data.Entities
 {
     public class ApplicationUser : IdentityUser
     {
-        //[MaxLength(40, ErrorMessage = "User name can't be more than 40 characters"),
-        //MinLength(5, ErrorMessage = "User name can't be less than 5 characters")]
+        //[MaxLength(40, ErrorMessage = "Username can't be more than 40 characters"),
+        //MinLength(5, ErrorMessage = "Username can't be less than 5 characters")]
         //public string UserName { get; set; }
         //public string Password { get; set; }
         //[EmailAddress]]
